@@ -30,3 +30,76 @@ Job board for ALX students to find jobs and for companies to find ALX students
 | First time visitor on Home page           | first time visitors will be greeted with a landing page that will have a preview of the job posts available and ask about his/her interests | ----                                          |
 | User interested in a particular job field | if the user is interested in a particular job field, he/she will be fed with more job posts related to that field                           | Else he/she will be fed with random job posts |
 | User interested in a particular company   | if the user is interested in a particular company, he/she will be fed with more job posts related to that company                           | Else he/she will be fed with random job posts |
+
+
+
+********************************************
+# Jobya - ALX Portfolio Project
+
+Jobya is a web application designed to help ALX students find job opportunities and assist companies in connecting with ALX students. This README provides an overview of the project and how to get it up and running.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+ALX students often face challenges when searching for job opportunities, and companies struggle to find suitable ALX student candidates. Jobya is our solution to bridge this gap. It offers a job board platform where ALX students can explore job postings and companies can easily share their openings.
+
+## Features
+
+- **Admin Dashboard**: Admin users can log in and add new job posts.
+- **Auto-Generation**: Admins can generate job posts from templates to streamline the posting process.
+- **Job Suggestion**: Utilizing machine learning, the app suggests job posts based on user information.
+
+## Technologies
+
+- **Node.js**: Backend development.
+- **React.js**: Frontend development.
+- **MongoDB**: Database storage.
+- **Bootstrap**: Used for styling.
+- **Material Design Icons and Font Awesome**: Icons and fonts.
+- **Selectize.js**: For enhanced dropdowns.
+- **Owl Carousel**: For image carousels.
+
+## Installation
+
+To run this project locally, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+
+   ```bash
+   cd jobya-alx-project
+Install the necessary dependencies.
+
+bash
+Copy code
+npm install
+Start the development server.
+
+bash
+Copy code
+npm start
+Usage
+Once the project is running locally, you can access it in your web browser at http://localhost:3000. Here are some basic usage instructions:
+
+Register or log in to your account.
+Explore job postings and apply for positions.
+If you are an admin, log in to the admin dashboard to add new job posts or use the auto-generation feature.
+Contributing
+We welcome contributions from the community to make Jobya even better. To contribute:
+
+Fork the repository.
+Create a new branch for your feature or bug fix.
+Make your changes and commit them with clear, descriptive commit messages.
+Push your changes to your fork.
+Create a pull request to the main repository.
+
+Please refer to our Contributing Guidelines for more details.
