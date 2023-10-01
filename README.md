@@ -1,6 +1,6 @@
 # ALX Portfolio Project
 
-Job board for ALX students to find jobs and for companies to find ALX students
+Job board for ALX students to find jobs and also for companies to find ALX students
 
 ## Problem we are trying to solve
 
@@ -9,7 +9,7 @@ Job board for ALX students to find jobs and for companies to find ALX students
 
 ## Solution
 
-- Create a job board for ALX students to find jobs
+- Create a job board for ALX students to find jobs and connect to companies
 
 ## Features for the App
 
