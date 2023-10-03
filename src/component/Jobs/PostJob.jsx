@@ -343,7 +343,7 @@ const PostJob = () => {
                           <label className="text-muted">Job Image</label>
                           <input
                             type="file"
-                            accept="image/*"
+                            // accept="image/*"
                             className="form-control resume"
                             onChange={onFileChange}
                           />

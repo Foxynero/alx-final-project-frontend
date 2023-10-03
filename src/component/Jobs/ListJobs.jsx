@@ -10,7 +10,7 @@ const ListJobs = () => {
       .get(`${process.env.REACT_APP_Base_url}/jobs/active`)
       .then((res) => {
         console.log(res.data);
-        setData(res.data.job);
+        setData(res.data.info);
       })
       .catch((err) => {
         console.log(err);
@@ -74,7 +74,7 @@ const ListJobs = () => {
                                   <Link
                                     to={{
                                       pathname: `/job_details`,
-                                      state: { id: item._id },
+                                      search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">
                                     Apply Now

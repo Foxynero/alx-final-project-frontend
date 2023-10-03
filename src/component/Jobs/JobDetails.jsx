@@ -2,48 +2,38 @@ import React, { useEffect, useState } from "react";
 import Footer from "../Views/Footer";
 import Header from "../Views/Header";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const JobDetails = (props) => {
-  // window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+const JobDetails = () => {
+  const location = useLocation();
+  const query = location.search;
 
-  console.log(props);
+  // get the value after the equal sign
+  const job_id = query.split("=")[1];
 
   const [jobDetails, setJobDetails] = useState([]);
-  const [token, setToken] = useState("");
-  const [id, setId] = useState(null);
-  // const [fileData, setFile] = useState(" ");
 
   useEffect(() => {
-    const tk = sessionStorage.getItem("token");
-    setToken(tk);
-    if (props.location.state) {
-      setId(props.location.state.id);
-    }
-  }, [props.location]);
-
-  useEffect(() => {
-    if (id) {
-      axios
-        .post(
-          `${process.env.REACT_APP_Base_url}/jobs/job_details`,
-          {
-            job_id: id,
+    axios
+      .post(
+        `${process.env.REACT_APP_Base_url}/jobs/job_details`,
+        {
+          job_id: job_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          setJobDetails(res.data.job);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [id, token]);
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setJobDetails(res.data.info);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [location.search]);
 
   return (
     <div>

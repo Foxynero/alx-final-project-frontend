@@ -6,14 +6,14 @@ const Blog = () => {
   return (
     <div>
       {/* Loader */}
-      <div id="preloader">
+      {/* <div id="preloader">
         <div id="status">
           <div className="spinner">
             <div className="double-bounce1" />
             <div className="double-bounce2" />
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Loader */}
 
       {/* Navigation Bar*/}

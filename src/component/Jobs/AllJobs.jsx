@@ -9,7 +9,7 @@ const AllJobs = () => {
       .get(`${process.env.REACT_APP_Base_url}/jobs/active`)
       .then((res) => {
         console.log(res.data);
-        setData(res.data.job.slice(0, 3));
+        setData(res.data.info.slice(0, 3));
       })
       .catch((err) => {
         console.log(err);
