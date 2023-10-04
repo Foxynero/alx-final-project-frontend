@@ -63,6 +63,7 @@ const JobDetails = () => {
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -238,12 +239,16 @@ const JobDetails = () => {
                                     <div className="input-group mt-2 mb-2">
                                       <div className="custom-file">
                                         <div className="input-group mb-3">
+                                          <label
+                                            className="input-group-text"
+                                            htmlFor="inputGroupFile01">
+                                            Upload CV
+                                          </label>
                                           <input
                                             type="file"
-                                            className="form-control"
+                                            className="form-control block"
                                             accept="application/pdf,application/msword"
                                             onChange={onFileChange}
-                                            // onClick={(e) => onFileChange(e)}
                                             required
                                           />
                                         </div>

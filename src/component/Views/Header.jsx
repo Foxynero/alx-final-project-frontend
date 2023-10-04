@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <div>
-      <header id="topnav" className="defaultscroll scroll-active">
+      <header id="topnav" className="default scroll scroll-active">
         {/* Tagline STart */}
         <div className="tagline">
           <div className="container">
@@ -119,6 +119,9 @@ const Header = () => {
               </li>
               <li className="has-submenu">
                 <a href="/jobs">Jobs</a>
+              </li>
+              <li className="has-submenu">
+                <a href="/jobs-portal">Job Portal</a>
               </li>
             </ul>
             {/*end navigation menu*/}

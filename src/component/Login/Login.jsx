@@ -28,6 +28,7 @@ const Login = () => {
         if (res.data.status === 200) {
           sessionStorage.setItem("token", res.data.token);
           sessionStorage.setItem("user_id", res.data.info._id);
+          sessionStorage.setItem("role", res.data.info.role);
           window.location.href = "/";
         }
       })

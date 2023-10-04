@@ -20,6 +20,7 @@ import PopularItem from "./component/Popular/PopularItem";
 import ScrollToTop from "./ScrollToTop";
 import ProtectedRoute from "./ProtectedRoute";
 import DisplaySearch from "./component/SearchPage/DisplaySearch";
+import JobsPortal from "./pages/jobs portal/jobs-portal";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/job_details" element={<JobDetails />} />
             <Route path="/post_job" element={<PostJob />} />
+            <Route path="/jobs-portal" element={<JobsPortal />} />
           </Route>
           <Route path="/error_page" element={<ErrorPage />} />
           <Route path="/*" element={<ErrorPage />} />
