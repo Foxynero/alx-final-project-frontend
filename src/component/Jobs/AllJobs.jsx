@@ -9,7 +9,7 @@ const AllJobs = () => {
       .get(`${process.env.REACT_APP_Base_url}/jobs/active`)
       .then((res) => {
         console.log(res.data);
-        setData(res.data.job.slice(0, 3));
+        setData(res.data.info.slice(0, 3));
       })
       .catch((err) => {
         console.log(err);
@@ -153,8 +153,10 @@ const AllJobs = () => {
                               <div className="col-md-2">
                                 <div>
                                   <Link
-                                    to={`/job_details`}
-                                    state={{ id: item._id }}
+                                    to={{
+                                      pathname: `/job_details`,
+                                      search: `?query=${item._id}`,
+                                    }}
                                     className="text-primary">
                                     Apply Now
                                     <i className="mdi mdi-chevron-double-right" />
@@ -264,7 +266,7 @@ const AllJobs = () => {
                                   <Link
                                     to={{
                                       pathname: `/job_details`,
-                                      state: { id: item._id },
+                                      search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">
                                     Apply Now

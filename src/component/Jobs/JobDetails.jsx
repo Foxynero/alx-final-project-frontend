@@ -1,49 +1,73 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Footer from "../Views/Footer";
 import Header from "../Views/Header";
 import axios from "axios";
 
-const JobDetails = (props) => {
-  // window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+const JobDetails = () => {
+  const location = useLocation();
+  const query = location.search;
 
-  console.log(props);
+  // get user_id from session storage
+  const user_id = sessionStorage.getItem("user_id");
+
+  // get the value after the equal sign
+  const job_id = query.split("=")[1];
 
   const [jobDetails, setJobDetails] = useState([]);
-  const [token, setToken] = useState("");
-  const [id, setId] = useState(null);
-  // const [fileData, setFile] = useState(" ");
+  const [file, setFile] = useState("");
+  // const [user_id, setUser_id] = useState("");
+
+  // on change of file
+  const onFileChange = (e) => {
+    console.log(e.target.files);
+    setFile(e.target.files[0]);
+    console.log(file);
+  };
 
   useEffect(() => {
-    const tk = sessionStorage.getItem("token");
-    setToken(tk);
-    if (props.location.state) {
-      setId(props.location.state.id);
-    }
-  }, [props.location]);
-
-  useEffect(() => {
-    if (id) {
-      axios
-        .post(
-          `${process.env.REACT_APP_Base_url}/jobs/job_details`,
-          {
-            job_id: id,
+    axios
+      .post(
+        `${process.env.REACT_APP_Base_url}/jobs/job_details`,
+        {
+          job_id: job_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          setJobDetails(res.data.job);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [id, token]);
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setJobDetails(res.data.info);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [job_id]);
+
+  const applyJobHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("job_id", job_id);
+    formData.append("user_id", user_id);
+
+    axios
+      .post(`${process.env.REACT_APP_Base_url}/jobs/apply_for_job`, formData, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        alert(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -111,12 +135,6 @@ const JobDetails = (props) => {
                         {jobDetails.job_company_email}
                       </p>
                     </li>
-                    <li className="list-inline-item">
-                      <p className="text-muted mb-2">
-                        <i className="mdi mdi-phone mr-1" />
-                        {jobDetails.job_company_phone}
-                      </p>
-                    </li>
                   </ul>
                 </div>
                 <div className="row">
@@ -180,35 +198,80 @@ const JobDetails = (props) => {
                   </div>
                 </div>
 
-                {/* <div className="row">
-                  <div className="col-md-12 py-3">
-                    <ul className="list-inline mb-0">
-                      <li className="list-inline-item">
-                        <div className="input-group mt-2 mb-2">
-                          <form onSubmit={uploadImage}>
-                            <div className="custom-file">
-                              <div className="input-group mb-3">
-                                <input
-                                  type="file"
-                                  className="form-control"
-                                  id="inputGroupFile02"
-                                  accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                  onChange={(e) => setFile(e.target.files[0])}
-                                />
+                <>
+                  {/* <!-- Button trigger modal --> */}
+                  <button
+                    type="button"
+                    className="btn btn-primary my-5 p-3 btn-block"
+                    data-toggle="modal"
+                    data-target="#exampleModal">
+                    apply now
+                  </button>
+
+                  {/* <!-- Modal --> */}
+                  <div
+                    className="modal fade"
+                    id="exampleModal"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="exampleModalLabel">
+                            complete job application
+                          </h5>
+                          <button
+                            type="button"
+                            className="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form onSubmit={applyJobHandler}>
+                          <div className="modal-body">
+                            <div className="row">
+                              <div className="col-12 py-3">
+                                <ul className="list-inline mb-0">
+                                  <li className="list-inline-item">
+                                    <div className="input-group mt-2 mb-2">
+                                      <div className="custom-file">
+                                        <div className="input-group mb-3">
+                                          <input
+                                            type="file"
+                                            className="form-control"
+                                            accept="application/pdf,application/msword"
+                                            onChange={onFileChange}
+                                            // onClick={(e) => onFileChange(e)}
+                                            required
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <br />
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
+                          </div>
+                          <div className="modal-footer">
                             <button
-                              type="submit"
-                              className="btn btn-primary btn-sm ml-2 btn-block my-3">
-                              Submit CV
+                              type="button"
+                              className="btn btn-secondary"
+                              data-dismiss="modal">
+                              Close
                             </button>
-                          </form>
-                          <br />
-                        </div>
-                      </li>
-                    </ul>
+                            <button type="submit" className="btn btn-primary">
+                              Submit
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </div> */}
+                </>
               </div>
 
               <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">

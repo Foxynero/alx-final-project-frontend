@@ -13,11 +13,9 @@ const PostJob = () => {
   const [job_education, setJobEducation] = useState("");
   const [job_experience, setJobExperience] = useState("");
   const [job_company_email, setJobCompanyEmail] = useState("");
-  const [job_company_phone, setJobCompanyPhone] = useState("");
-  const [job_gender, setJobGender] = useState("");
-  const [jobshift, setJobShift] = useState("");
+  const [post_duration, setJobGender] = useState("");
+  const [job_term, setJobShift] = useState("");
   const [job_description, setJobDescription] = useState("");
-  const [file, setFile] = useState("");
   const [categories, setCategories] = useState([]);
   const [token, setToken] = useState("");
 
@@ -32,41 +30,33 @@ const PostJob = () => {
       });
   }, []);
 
-  const onFileChange = (e) => {
-    console.log(e.target.files[0]);
-    if (e.target && e.target.files[0].size < 5000000) {
-      setFile(e.target.files[0]);
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("job_title", job_title);
-    formData.append("job_type", job_type);
-    formData.append("job_category", job_category);
-    formData.append("job_location", job_location);
-    formData.append("job_country", job_country);
-    formData.append("job_salary", job_salary);
-    formData.append("job_education", job_education);
-    formData.append("job_experience", job_experience);
-    formData.append("job_company_email", job_company_email);
-    formData.append("job_company_phone", job_company_phone);
-    formData.append("job_gender", job_gender);
-    formData.append("jobshift", jobshift);
-    formData.append("job_description", job_description);
-    formData.append("job_image", file);
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
-
     await axios
-      .post(`${process.env.REACT_APP_Base_url}/jobs/job`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .post(
+        `${process.env.REACT_APP_Base_url}/jobs/job`,
+        {
+          user_id: sessionStorage.getItem("user_id"),
+          job_title: job_title,
+          job_type: job_type,
+          job_category: job_category,
+          job_location: job_location,
+          job_country: job_country,
+          job_salary: job_salary,
+          job_education: job_education,
+          job_experience: job_experience,
+          job_company_email: job_company_email,
+          job_term: job_term,
+          job_description: job_description,
+          post_duration: post_duration,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         alert(res.data.message);
@@ -286,7 +276,7 @@ const PostJob = () => {
                             minLength={10}
                             maxLength={10}
                             className="form-control resume"
-                            onChange={(e) => setJobCompanyPhone(e.target.value)}
+                            // onChange={(e) => setJobCompanyPhone(e.target.value)}
                           />
                         </div>
                       </div>
@@ -332,20 +322,6 @@ const PostJob = () => {
                             className="form-control resume"
                             defaultValue={""}
                             onChange={(e) => setJobDescription(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Job Image</label>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="form-control resume"
-                            onChange={onFileChange}
                           />
                         </div>
                       </div>

@@ -7,9 +7,9 @@ const Popular = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
-        setPopular(res.data.categories);
+        setPopular(res.data.info);
         console.log(res.data);
       });
   }, []);
@@ -36,6 +36,10 @@ const Popular = () => {
                       <div className="popu-category-box bg-light rounded text-center p-4">
                         <div className="popu-category-icon mb-3">
                           <i className="mdi mdi-account d-inline-block rounded-pill h3 text-primary" />
+                          {/* <p className="d-inline-block rounded-pill h3 text-primary">
+                            {item.category_name.charAt(0).toUpperCase() +
+                              item.category_name.charAt(1).toUpperCase()}
+                          </p> */}
                         </div>
                         <div className="popu-category-content">
                           <h5 className="mb-2 text-dark title">
