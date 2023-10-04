@@ -94,7 +94,7 @@ const Header = () => {
           </div>
           <div className="buy-button">
             <a href="/post_job" className="btn btn-primary">
-              <i className="mdi mdi-cloud-upload" /> Post a Job
+              <i className="mdi mdi-cloud-upload" /> want to post ?
             </a>
           </div>
           {/* End Logo container*/}

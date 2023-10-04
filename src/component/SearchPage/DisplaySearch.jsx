@@ -6,6 +6,7 @@ import { useLocation, Link } from "react-router-dom";
 
 const DisplaySearch = () => {
   let location = useLocation();
+  console.log(location);
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const DisplaySearch = () => {
                             <div
                               className="col-lg-4 col-md-12 py-2"
                               key={item._id}>
-                              <div className="job-box bg-white overflow-hidden border  roundedposition-relative overflow-hidden">
+                              <div className="job-box bg-white overflow-hidden border  rounded position-relative overflow-hidden">
                                 <div className="p-4">
                                   <div className="row align-items-center">
                                     <div className="col-md-6">
@@ -114,7 +115,7 @@ const DisplaySearch = () => {
                                         <Link
                                           to={{
                                             pathname: `/job_details`,
-                                            state: { id: item._id },
+                                            search: `?query=${item._id}`,
                                           }}
                                           className="text-primary">
                                           Apply Now

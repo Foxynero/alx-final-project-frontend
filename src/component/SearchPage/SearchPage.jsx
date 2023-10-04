@@ -12,9 +12,9 @@ const SearchPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
-        setPopular(res.data.categories);
+        setPopular(res.data.info);
         console.log(res.data);
       });
   }, []);
@@ -23,7 +23,7 @@ const SearchPage = () => {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_Base_url}/seeker/job_filter`, {
+      .post(`${process.env.REACT_APP_Base_url}/jobs/job_search`, {
         job_title,
         job_category,
         job_location,
@@ -31,7 +31,7 @@ const SearchPage = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 200) {
-          navigate("/search_results", { state: { jobs: res.data.job } });
+          navigate("/search_results", { state: { jobs: res.data.info } });
         } else {
           alert(res.data.message);
         }
