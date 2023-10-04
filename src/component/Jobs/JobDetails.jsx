@@ -33,7 +33,7 @@ const JobDetails = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [location.search]);
+  }, [job_id]);
 
   return (
     <div>

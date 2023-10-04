@@ -153,8 +153,10 @@ const AllJobs = () => {
                               <div className="col-md-2">
                                 <div>
                                   <Link
-                                    to={`/job_details`}
-                                    state={{ id: item._id }}
+                                    to={{
+                                      pathname: `/job_details`,
+                                      search: `?query=${item._id}`,
+                                    }}
                                     className="text-primary">
                                     Apply Now
                                     <i className="mdi mdi-chevron-double-right" />
@@ -264,7 +266,7 @@ const AllJobs = () => {
                                   <Link
                                     to={{
                                       pathname: `/job_details`,
-                                      state: { id: item._id },
+                                      search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">
                                     Apply Now

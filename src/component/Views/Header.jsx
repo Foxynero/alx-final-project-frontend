@@ -12,21 +12,22 @@ const Header = () => {
     setToken(tk);
 
     if (token) {
-      setToken(token);
       axios
-        .get(`${process.env.REACT_APP_Base_url}/seeker/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        .post(
+          `${process.env.REACT_APP_Base_url}/users/user_details`,
+          {
+            user_id: sessionStorage.getItem("user_id"),
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
           console.log(res.data);
-          if (res.data.message === "Not authorized, Please add token") {
-            // sessionStorage.removeItem("token");
-            sessionStorage.clear();
-            window.location.href = "/login";
-          }
-          setUserData(res.data.user_details);
+
+          setUserData(res.data.info);
         })
         .catch((err) => {
           console.log(err);
@@ -61,8 +62,13 @@ const Header = () => {
                         className="topbar-list list-unstyled d-flex"
                         style={{ margin: "11px 0px" }}>
                         <li className="list-inline-item">
-                          <a href="/">
-                            <i className="mdi mdi-account mr-2" />
+                          <a href="/" className="d-flex justify-content-center">
+                            <div className="mx-2">
+                              <span className="rounded-circle bg-light text-dark p-2">
+                                {userData?.first_name[0]}{" "}
+                                {userData?.last_name[0]}
+                              </span>
+                            </div>
                             {userData?.first_name} {userData?.last_name}
                           </a>
                         </li>
