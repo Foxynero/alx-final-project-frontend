@@ -3,9 +3,12 @@ import A from "../images/logo-light.png";
 import B from "../images/logo-dark.png";
 import axios from "axios";
 
-const Header = () => {
+const JobsHeader = () => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
+
+  // get role from session storage
+  const role = sessionStorage.getItem("role");
 
   useEffect(() => {
     const tk = sessionStorage.getItem("token");
@@ -48,8 +51,8 @@ const Header = () => {
                 </a>
               </div>
               <div className="email">
-                <a href="mailto:flexywork327@example.com">
-                  <i className="mdi mdi-email" /> flexywork327@mail.com
+                <a href="mailto:flexywork327@gmail.com">
+                  <i className="mdi mdi-email" /> customerservices@jobya.com
                 </a>
               </div>
             </div>
@@ -111,21 +114,40 @@ const Header = () => {
               {/* End mobile menu toggle*/}
             </div>
           </div>
-          <div id="navigation">
-            {/* Navigation Menu*/}
-            <ul className="navigation-menu">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li className="has-submenu">
-                <a href="/jobs">Jobs</a>
-              </li>
-              <li className="has-submenu">
-                <a href="/jobs-portal">My Job Portal</a>
-              </li>
-            </ul>
-            {/*end navigation menu*/}
-          </div>
+          {role && role === "creator" ? (
+            <div id="navigation">
+              {/* Navigation Menu*/}
+              <ul className="navigation-menu">
+                <li className="has-submenu">
+                  <a href="/jobs">Active Posted Jobs</a>
+                </li>
+                <li className="has-submenu">
+                  <a href="/jobs-portal">Expired Jobs </a>
+                </li>
+                <li className="has-submenu">
+                  <a href="/jobs-portal">Jobs Applied</a>
+                </li>
+              </ul>
+              {/*end navigation menu*/}
+            </div>
+          ) : (
+            <div id="navigation">
+              {/* Navigation Menu*/}
+              <ul className="navigation-menu">
+                <li>
+                  <a href="/">Home</a>
+                </li>
+                <li className="has-submenu">
+                  <a href="/jobs">Applied Jobs</a>
+                </li>
+                <li className="has-submenu">
+                  <a href="/jobs-portal">Profile</a>
+                </li>
+              </ul>
+              {/*end navigation menu*/}
+            </div>
+          )}
+
           {/*end navigation*/}
         </div>
         {/*end container*/}
@@ -135,4 +157,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default JobsHeader;

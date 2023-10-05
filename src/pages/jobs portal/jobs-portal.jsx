@@ -1,95 +1,38 @@
-import React from "react";
-import SearchPage from "../../component/SearchPage/SearchPage";
-import Header from "../../component/Views/Header";
+import JobsHeader from "../../component/Views/Jobs_Header";
 import ListJobs from "../../component/Jobs/ListJobs";
 import Footer from "../../component/Views/Footer";
+import DataTable from "../../component/dataTable";
+import React from "react";
 
 const JobsPortal = () => {
+  const role = sessionStorage.getItem("role");
   return (
     <>
       {/* Navigation Bar*/}
-      <Header />
+      <JobsHeader />
       {/*end header*/}
 
       {/* Start home */}
       <section className="bg-half page-next-level">
         <div className="bg-overlay" />
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-6">
-              <div className="text-center text-white">
-                <h4 className="text-uppercase title mb-4">Job view</h4>
-                <ul className="page-next d-inline-block mb-0">
-                  <li>
-                    <a href="/" className="text-uppercase font-weight-bold">
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#/" className="text-uppercase font-weight-bold">
-                      Jobs
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
       {/* end home */}
 
-      <section className="section py-3">
-        {/* SEARCH API PAGE */}
-        <SearchPage />
-        {/* SEARCH API PAGE */}
-
-        <section className="section bg-light py-3">
-          <div className="container">
-            <ListJobs />
-          </div>
-        </section>
-      </section>
-
-      {/* subscribe start */}
-      <section className="section bg-light py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-4 col-md-5">
-              <div className="float-left position-relative notification-icon mr-2">
-                <i className="mdi mdi-bell-outline text-primary" />
-                <span className="badge badge-pill badge-danger">1</span>
+      {role && role === "creator" ? (
+        <>
+          <DataTable />
+        </>
+      ) : (
+        <>
+          <section className="section py-3">
+            <section className="section bg-light py-3">
+              <div className="container">
+                <ListJobs />
               </div>
-              <h5 className="mt-2 mb-0">Your Job Notification</h5>
-            </div>
-            <div className="col-lg-8 col-md-7 mt-4 mt-sm-0">
-              <form>
-                <div className="form-group mb-0">
-                  <div className="input-group mb-0">
-                    <input
-                      name="email"
-                      id="email"
-                      type="email"
-                      className="form-control"
-                      placeholder="Your email :"
-                      required
-                      aria-describedby="newssubscribebtn"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-primary submitBnt"
-                        type="submit"
-                        id="newssubscribebtn">
-                        Subscribe
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* subscribe end */}
+            </section>
+          </section>
+        </>
+      )}
 
       {/* footer start */}
       <Footer />
