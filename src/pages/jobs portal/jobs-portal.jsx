@@ -1,8 +1,8 @@
 import JobsHeader from "../../component/Views/Jobs_Header";
 import ListJobs from "../../component/Jobs/ListJobs";
 import Footer from "../../component/Views/Footer";
-import DataTable from "../../component/dataTable";
 import React from "react";
+import ActiveTable from "../../component/tables/activeTable";
 
 const JobsPortal = () => {
   const role = sessionStorage.getItem("role");
@@ -20,7 +20,7 @@ const JobsPortal = () => {
 
       {role && role === "creator" ? (
         <>
-          <DataTable />
+          <ActiveTable />
         </>
       ) : (
         <>

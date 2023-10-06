@@ -21,6 +21,8 @@ import ScrollToTop from "./ScrollToTop";
 import ProtectedRoute from "./ProtectedRoute";
 import DisplaySearch from "./component/SearchPage/DisplaySearch";
 import JobsPortal from "./pages/jobs portal/jobs-portal";
+import AppliedJobs from "./pages/applied jobs/applied-jobs";
+import Profile from "./pages/profile/profile";
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
             <Route path="/job_details" element={<JobDetails />} />
             <Route path="/post_job" element={<PostJob />} />
             <Route path="/jobs-portal" element={<JobsPortal />} />
+            <Route path="/applied-jobs" element={<AppliedJobs />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="/error_page" element={<ErrorPage />} />
           <Route path="/*" element={<ErrorPage />} />

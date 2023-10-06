@@ -119,7 +119,7 @@ const JobsHeader = () => {
               {/* Navigation Menu*/}
               <ul className="navigation-menu">
                 <li className="has-submenu">
-                  <a href="/jobs">Active Posted Jobs</a>
+                  <a href="/jobs-portal">Active Posted Jobs</a>
                 </li>
                 <li className="has-submenu">
                   <a href="/jobs-portal">Expired Jobs </a>
@@ -138,10 +138,10 @@ const JobsHeader = () => {
                   <a href="/">Home</a>
                 </li>
                 <li className="has-submenu">
-                  <a href="/jobs">Applied Jobs</a>
+                  <a href="/applied-jobs">Applied Jobs</a>
                 </li>
                 <li className="has-submenu">
-                  <a href="/jobs-portal">Profile</a>
+                  <a href="/profile">Profile</a>
                 </li>
               </ul>
               {/*end navigation menu*/}
