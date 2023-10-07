@@ -114,7 +114,7 @@ const DisplaySearch = () => {
                                       <div>
                                         <Link
                                           to={{
-                                            pathname: `/job_details`,
+                                            pathname: `/job-details`,
                                             search: `?query=${item._id}`,
                                           }}
                                           className="text-primary">

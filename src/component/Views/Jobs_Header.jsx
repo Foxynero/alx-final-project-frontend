@@ -47,7 +47,7 @@ const JobsHeader = () => {
             <div className="float-left">
               <div className="phone">
                 <a href="tel:+233 501592984" style={{ color: "#fff" }}>
-                  <i className="mdi mdi-phone-classic" /> +233 501592984
+                  <i className="mdi mdi-phone-classic" /> +233 501000000
                 </a>
               </div>
               <div className="email">

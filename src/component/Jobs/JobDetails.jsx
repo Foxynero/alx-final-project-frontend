@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 import Footer from "../Views/Footer";
 import Header from "../Views/Header";
 import axios from "axios";
 
 const JobDetails = () => {
-  const location = useLocation();
-  const query = location.search;
+  const { search } = useLocation();
+
+  const { query } = queryString.parse(search);
+  console.log(query);
 
   // get user_id from session storage
   const user_id = sessionStorage.getItem("user_id");
 
-  // get the value after the equal sign
-  const job_id = query.split("=")[1];
-
   const [jobDetails, setJobDetails] = useState([]);
   const [file, setFile] = useState("");
-  // const [user_id, setUser_id] = useState("");
 
   // on change of file
   const onFileChange = (e) => {
@@ -26,48 +25,59 @@ const JobDetails = () => {
   };
 
   useEffect(() => {
-    axios
-      .post(
-        `${process.env.REACT_APP_Base_url}/jobs/job_details`,
-        {
-          job_id: job_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        setJobDetails(res.data.info);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [job_id]);
+    if (query) {
+      axios
+        .post(
+          `${process.env.REACT_APP_Base_url}/jobs/job_details`,
+          {
+            job_id: query,
+          }
+          // {
+          //   headers: {
+          //     Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          //   },
+          // }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setJobDetails(res.data.info);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [query]);
 
   const applyJobHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("resume", file);
-    formData.append("job_id", job_id);
+    formData.append("job_id", query);
     formData.append("user_id", user_id);
 
-    axios
-      .post(`${process.env.REACT_APP_Base_url}/jobs/apply_for_job`, formData, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        alert(res.data.message);
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!user_id) {
+      alert("Please login to apply for job");
+      window.location.href = "/login";
+    } else {
+      axios
+        .post(
+          `${process.env.REACT_APP_Base_url}/jobs/apply_for_job`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          alert(res.data.message);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -99,7 +109,7 @@ const JobDetails = () => {
                   </li>
                   <li>
                     <span className="text-uppercase text-white font-weight-bold">
-                      Job Detail two
+                      Job Detail
                     </span>
                   </li>
                 </ul>
@@ -288,7 +298,7 @@ const JobDetails = () => {
                     <div className="overview-details">
                       <h6 className="text-muted mb-0">Experience</h6>
                       <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_experience}
+                        {jobDetails.job_experience} year(s)
                       </h6>
                     </div>
                   </div>
@@ -314,17 +324,7 @@ const JobDetails = () => {
                       </h6>
                     </div>
                   </div>
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-human-male-female text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Gender</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_gender}
-                      </h6>
-                    </div>
-                  </div>
+
                   <div className="single-post-item mb-4">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-calendar-today text-muted mdi-24px" />
@@ -347,17 +347,7 @@ const JobDetails = () => {
                       </h6>
                     </div>
                   </div>
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-phone-classic text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Contact No</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_company_phone}
-                      </h6>
-                    </div>
-                  </div>
+
                   <div className="single-post-item">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-map-marker text-muted mdi-24px" />

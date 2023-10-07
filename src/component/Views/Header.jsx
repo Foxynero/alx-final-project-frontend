@@ -44,17 +44,36 @@ const Header = () => {
             <div className="float-left">
               <div className="phone">
                 <a href="tel:+233 501592984" style={{ color: "#fff" }}>
-                  <i className="mdi mdi-phone-classic" /> +233 501592984
+                  <i className="mdi mdi-phone-classic" /> +233 501000000
                 </a>
               </div>
               <div className="email">
-                <a href="mailto:flexywork327@example.com">
-                  <i className="mdi mdi-email" /> flexywork327@mail.com
+                <a href="mailto:customerservices@jobya.com">
+                  <i className="mdi mdi-email" /> customerservices@jobya.com
                 </a>
               </div>
             </div>
             <div>
-              {token === null ? null : (
+              {token === null ? (
+                <>
+                  <div className="float-right">
+                    <ul
+                      className="topbar-list list-unstyled d-flex"
+                      style={{ margin: "11px 0px" }}>
+                      <li className="list-inline-item">
+                        <a
+                          href="/login"
+                          className="d-flex justify-content-center">
+                          <span className="mx-2">
+                            <i className="mdi mdi-account" />
+                          </span>
+                          login
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </>
+              ) : (
                 <>
                   {userData && (
                     <div className="float-right">
@@ -93,7 +112,7 @@ const Header = () => {
             </a>
           </div>
           <div className="buy-button">
-            <a href="/post_job" className="btn btn-primary">
+            <a href="/post-job" className="btn btn-primary">
               <i className="mdi mdi-cloud-upload" /> want to post ?
             </a>
           </div>

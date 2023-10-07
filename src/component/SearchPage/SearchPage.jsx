@@ -56,7 +56,7 @@ const SearchPage = () => {
                         type="text"
                         id="exampleInputName1"
                         className="form-control rounded registration-input-box"
-                        placeholder="Job keybords..."
+                        placeholder="Job keywords..."
                         onChange={(e) => setJobTitle(e.target.value)}
                       />
                     </div>

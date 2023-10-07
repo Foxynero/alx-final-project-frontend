@@ -116,25 +116,37 @@ const ActiveTable = () => {
                 style={{ width: "20%" }}></Column>
               <Column
                 field="job_category"
-                header="job category"
+                header="Industry"
                 style={{ width: "20%" }}></Column>
               <Column
-                field="job_experience"
                 header="job experience"
+                body={(rowData) => (
+                  <>
+                    {rowData.job_experience === "0" ? (
+                      <div className="flex align-items-center">
+                        <span>Fresher</span>
+                      </div>
+                    ) : (
+                      <div className="flex align-items-center">
+                        <span>{rowData.job_experience} years</span>
+                      </div>
+                    )}
+                  </>
+                )}
                 style={{ width: "20%" }}></Column>
               <Column
                 field="job_location"
                 header="job location"
                 style={{ width: "20%" }}></Column>
               <Column
-                field="active"
+                field="status"
                 header="status"
-                style={{ width: "20%" }}></Column>
+                style={{ width: "10%" }}></Column>
               <Column
                 header="Action"
                 body={(rowData) => (
                   <>
-                    {rowData.active === "active" ? (
+                    {rowData.status === "active" ? (
                       <div className="flex align-items-center">
                         <button
                           className="btn btn-danger"
@@ -151,16 +163,9 @@ const ActiveTable = () => {
                         </button>
                       </div>
                     )}
-                    {/* <div className="flex align-items-center">
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => Deactivate(rowData._id)}>
-                        Deactivate
-                      </button>
-                    </div> */}
                   </>
                 )}
-                style={{ width: "20%" }}></Column>
+                style={{ width: "10%" }}></Column>
             </DataTable>
           </div>
         </div>

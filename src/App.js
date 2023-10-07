@@ -42,10 +42,10 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/job-details" element={<JobDetails />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/job_details" element={<JobDetails />} />
-            <Route path="/post_job" element={<PostJob />} />
+            <Route path="/post-job" element={<PostJob />} />
             <Route path="/jobs-portal" element={<JobsPortal />} />
             <Route path="/applied-jobs" element={<AppliedJobs />} />
             <Route path="/profile" element={<Profile />} />

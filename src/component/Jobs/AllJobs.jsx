@@ -42,7 +42,7 @@ const AllJobs = () => {
                     role="tab"
                     aria-controls="recent-job"
                     aria-selected="true">
-                    Recent Jobs
+                    Jobs for you
                   </a>
                 </li>
 
@@ -55,7 +55,7 @@ const AllJobs = () => {
                     role="tab"
                     aria-controls="full-job"
                     aria-selected="false">
-                    Full Time
+                    Recent Jobs
                   </a>
                 </li>
               </ul>
@@ -154,7 +154,7 @@ const AllJobs = () => {
                                 <div>
                                   <Link
                                     to={{
-                                      pathname: `/job_details`,
+                                      pathname: `/job-details`,
                                       search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">
@@ -265,7 +265,7 @@ const AllJobs = () => {
                                 <div>
                                   <Link
                                     to={{
-                                      pathname: `/job_details`,
+                                      pathname: `/job-details`,
                                       search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">

@@ -8,13 +8,9 @@ const PostJob = () => {
   const [job_type, setJobType] = useState("");
   const [job_category, setJobCategory] = useState("");
   const [job_location, setJobLocation] = useState("");
-  const [job_country, setCountry] = useState("");
   const [job_salary, setJobSalary] = useState("");
-  const [job_education, setJobEducation] = useState("");
   const [job_experience, setJobExperience] = useState("");
   const [job_company_email, setJobCompanyEmail] = useState("");
-  const [post_duration, setJobGender] = useState("");
-  const [job_term, setJobShift] = useState("");
   const [job_description, setJobDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [token, setToken] = useState("");
@@ -23,10 +19,10 @@ const PostJob = () => {
     setToken(sessionStorage.getItem("token"));
 
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
         console.log(res.data);
-        setCategories(res.data.categories);
+        setCategories(res.data.info);
       });
   }, []);
 
@@ -35,21 +31,17 @@ const PostJob = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_Base_url}/jobs/job`,
+        `${process.env.REACT_APP_Base_url}/jobs/create_job`,
         {
           user_id: sessionStorage.getItem("user_id"),
           job_title: job_title,
           job_type: job_type,
           job_category: job_category,
           job_location: job_location,
-          job_country: job_country,
           job_salary: job_salary,
-          job_education: job_education,
           job_experience: job_experience,
           job_company_email: job_company_email,
-          job_term: job_term,
           job_description: job_description,
-          post_duration: post_duration,
         },
         {
           headers: {
@@ -178,7 +170,7 @@ const PostJob = () => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group app-label mt-2">
-                          <label className="text-muted">City</label>
+                          <label className="text-muted">Location</label>
                           <input
                             type="text"
                             className="form-control resume"
@@ -188,15 +180,12 @@ const PostJob = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group app-label mt-2">
-                          <label className="text-muted">Country</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setCountry(e.target.value)}>
-                              <option data-display="Country">----</option>
-                              <option value={"Ghana"}>Ghana</option>
-                            </select>
-                          </div>
+                          <label className="text-muted">Experience</label>
+                          <input
+                            type="number"
+                            className="form-control resume"
+                            onChange={(e) => setJobExperience(e.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
@@ -205,7 +194,7 @@ const PostJob = () => {
                         <div className="form-group app-label mt-2">
                           <label className="text-muted"> Salary</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control resume"
                             placeholder="Enter Salary eg: GH₵ 1000"
                             onChange={(e) => setJobSalary(e.target.value)}
@@ -213,102 +202,18 @@ const PostJob = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Education Level</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobEducation(e.target.value)}>
-                              <option data-display="Level">-----</option>
-                              <option value={"Basic Level"}>Basic Level</option>
-                              <option value={"SHS Level"}>SHS Level</option>
-                              <option value={"Tertiary Level"}>
-                                Tertiary Level
-                              </option>
-                              <option value={"Advance Level"}>
-                                Advance Level
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">
-                            Year of Experience
-                          </label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) =>
-                                setJobExperience(e.target.value)
-                              }>
-                              <option data-display="Experience">-----</option>
-                              <option value={"1"}>1 Year</option>
-                              <option value={"2"}>2 Year</option>
-                              <option value={"3"}>3 Year</option>
-                              <option value={"4"}>4 Year</option>
-                              <option value={"5+"}>5+ Year</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
                     <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group app-label mt-2">
-                          <label className="text-muted">Email Address</label>
+                          <label className="text-muted">
+                            Company Email Address
+                          </label>
                           <input
-                            type="text"
+                            type="email"
                             className="form-control resume"
                             onChange={(e) => setJobCompanyEmail(e.target.value)}
                           />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Phone Number</label>
-                          <input
-                            type="tel"
-                            minLength={10}
-                            maxLength={10}
-                            className="form-control resume"
-                            // onChange={(e) => setJobCompanyPhone(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Gender</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobGender(e.target.value)}>
-                              <option data-display="Gender">----</option>
-                              <option value={"Male"}>Male</option>
-                              <option value={"Female"}>Female</option>
-                              <option value={"unisex"}>Unisex</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Shift</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobShift(e.target.value)}>
-                              <option data-display="Shift">---</option>
-                              <option value={"Morning"}>Morning</option>
-                              <option value={"Evening"}>Evening</option>
-                            </select>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -329,8 +234,10 @@ const PostJob = () => {
 
                     <div className="row">
                       <div className="col-lg-12 mt-2">
-                        <button type="submit" className="btn btn-primary">
-                          Post a Job
+                        <button
+                          type="submit"
+                          className="btn btn-primary btn-lg btn-block">
+                          Post Job
                         </button>
                       </div>
                     </div>
