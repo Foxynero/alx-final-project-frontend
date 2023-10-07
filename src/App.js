@@ -33,7 +33,7 @@ function App() {
           <Route path="/forgot_password" element={<ForgotPassword />} />
           <Route path="/all_categories" element={<AllCategories />} />
           <Route path="/search_results" element={<DisplaySearch />} />
-          <Route path="/popular_item" element={<PopularItem />} />
+          <Route path="/popular-item" element={<PopularItem />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/register" element={<Register />} />
           <Route path="/pricing" element={<Pricing />} />

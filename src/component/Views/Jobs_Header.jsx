@@ -119,11 +119,9 @@ const JobsHeader = () => {
               {/* Navigation Menu*/}
               <ul className="navigation-menu">
                 <li className="has-submenu">
-                  <a href="/jobs-portal">Active Posted Jobs</a>
+                  <a href="/jobs-portal">Jobs Dashboard</a>
                 </li>
-                <li className="has-submenu">
-                  <a href="/jobs-portal">Expired Jobs </a>
-                </li>
+
                 <li className="has-submenu">
                   <a href="/jobs-portal">Jobs Applied</a>
                 </li>

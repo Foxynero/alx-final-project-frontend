@@ -29,6 +29,10 @@ const Login = () => {
           sessionStorage.setItem("token", res.data.token);
           sessionStorage.setItem("user_id", res.data.info._id);
           sessionStorage.setItem("role", res.data.info.role);
+          sessionStorage.setItem(
+            "preference",
+            res.data.info.isPreferenceSelected
+          );
           window.location.href = "/";
         }
       })

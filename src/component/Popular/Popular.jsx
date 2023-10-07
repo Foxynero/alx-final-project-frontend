@@ -31,15 +31,11 @@ const Popular = () => {
                 return (
                   <div className="col-lg-3 col-md-6 mt-4 pt-2" key={item._id}>
                     <Link
-                      to={`/popular_item`}
+                      to={`/popular-item`}
                       state={{ category: item.category_name }}>
                       <div className="popu-category-box bg-light rounded text-center p-4">
                         <div className="popu-category-icon mb-3">
                           <i className="mdi mdi-account d-inline-block rounded-pill h3 text-primary" />
-                          {/* <p className="d-inline-block rounded-pill h3 text-primary">
-                            {item.category_name.charAt(0).toUpperCase() +
-                              item.category_name.charAt(1).toUpperCase()}
-                          </p> */}
                         </div>
                         <div className="popu-category-content">
                           <h5 className="mb-2 text-dark title">
