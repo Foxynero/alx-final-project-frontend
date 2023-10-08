@@ -6,17 +6,23 @@ import axios from "axios";
 const Header = () => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [user_id, setUserId] = useState(null);
 
   useEffect(() => {
     const tk = sessionStorage.getItem("token");
-    setToken(tk);
+    const user = sessionStorage.getItem("user_id");
+    setUserId(user);
 
+    setToken(tk);
+  }, []);
+
+  useEffect(() => {
     if (token) {
       axios
         .post(
           `${process.env.REACT_APP_Base_url}/users/user_details`,
           {
-            user_id: sessionStorage.getItem("user_id"),
+            user_id: user_id,
           },
           {
             headers: {
@@ -33,7 +39,7 @@ const Header = () => {
           console.log(err);
         });
     }
-  }, [token]);
+  }, [token, user_id]);
 
   return (
     <div>

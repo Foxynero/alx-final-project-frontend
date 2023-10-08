@@ -123,7 +123,7 @@ const JobsHeader = () => {
                 </li>
 
                 <li className="has-submenu">
-                  <a href="/jobs-portal">Jobs Applied</a>
+                  <a href="/applied-jobs">Jobs Applied</a>
                 </li>
               </ul>
               {/*end navigation menu*/}

@@ -7,10 +7,7 @@ import axios from "axios";
 
 const JobDetails = () => {
   const { search } = useLocation();
-
   const { query } = queryString.parse(search);
-  console.log(query);
-
   // get user_id from session storage
   const user_id = sessionStorage.getItem("user_id");
 
@@ -27,17 +24,9 @@ const JobDetails = () => {
   useEffect(() => {
     if (query) {
       axios
-        .post(
-          `${process.env.REACT_APP_Base_url}/jobs/job_details`,
-          {
-            job_id: query,
-          }
-          // {
-          //   headers: {
-          //     Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          //   },
-          // }
-        )
+        .post(`${process.env.REACT_APP_Base_url}/jobs/get_job_details`, {
+          job_id: query,
+        })
         .then((res) => {
           console.log(res.data);
           setJobDetails(res.data.info);
@@ -139,6 +128,14 @@ const JobDetails = () => {
                       {jobDetails.job_title}
                     </a>
                   </h4>
+                  <ul className="list-inline mb-0">
+                    <li className="list-inline-item mr-3">
+                      <p className="text-muted mb-2">
+                        <i className="mdi mdi-home mr-1" />
+                        {jobDetails.job_company_name}
+                      </p>
+                    </li>
+                  </ul>
                   <ul className="list-inline mb-0">
                     <li className="list-inline-item mr-3">
                       <p className="text-muted mb-2">
@@ -291,6 +288,18 @@ const JobDetails = () => {
 
               <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div className="job-detail rounded border job-overview mt-4 mb-4">
+                  <div className="single-post-item mb-4">
+                    <div className="float-left mr-3">
+                      <i className="mdi mdi-home text-muted mdi-24px" />
+                    </div>
+                    <div className="overview-details">
+                      <h6 className="text-muted mb-0">Company name</h6>
+                      <h6 className="text-black-50 pt-2 mb-0">
+                        {jobDetails.job_company_name}
+                      </h6>
+                    </div>
+                  </div>
+
                   <div className="single-post-item mb-4">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-security text-muted mdi-24px" />

@@ -42,8 +42,6 @@ const Register = () => {
       <section
         className="vh-100"
         style={{
-          // background:
-          //   'url("https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/") center center',
           backgroundColor: "#eee",
         }}>
         <div className="home-center">

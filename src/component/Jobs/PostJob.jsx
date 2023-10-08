@@ -11,13 +11,25 @@ const PostJob = () => {
   const [job_salary, setJobSalary] = useState("");
   const [job_experience, setJobExperience] = useState("");
   const [job_company_email, setJobCompanyEmail] = useState("");
+  const [job_company_name, setCompanyName] = useState("");
   const [job_description, setJobDescription] = useState("");
   const [categories, setCategories] = useState([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(null);
+
+  const [user_id, setUserId] = useState(null);
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
+    const tk = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user_id");
+    setUserId(user);
 
+    setToken(tk);
+  }, []);
+
+  console.log(user_id);
+  console.log(token);
+
+  useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
@@ -29,34 +41,42 @@ const PostJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
-      .post(
-        `${process.env.REACT_APP_Base_url}/jobs/create_job`,
-        {
-          user_id: sessionStorage.getItem("user_id"),
-          job_title: job_title,
-          job_type: job_type,
-          job_category: job_category,
-          job_location: job_location,
-          job_salary: job_salary,
-          job_experience: job_experience,
-          job_company_email: job_company_email,
-          job_description: job_description,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    if (!token) {
+      alert("Please login to post a job");
+      return;
+    } else {
+      await axios
+        .post(
+          `${process.env.REACT_APP_Base_url}/jobs/create_job`,
+          {
+            user_id: user_id,
+            job_title: job_title,
+            job_type: job_type,
+            job_category: job_category,
+            job_location: job_location,
+            job_salary: job_salary,
+            job_experience: job_experience,
+            job_company_email: job_company_email,
+            job_company_name: job_company_name,
+            job_description: job_description,
           },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        alert(res.data.message);
-        window.location.href = "/jobs";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          alert(res.data.message);
+          if (res.data.status === 201) {
+            window.location.href = "/jobs";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -95,10 +115,10 @@ const PostJob = () => {
       <div className="container">
         <div className="row text-center p-3">
           <div className="col-md-12">
-            <h5>
+            {/* <h5>
               <span style={{ color: "red" }}>NB</span>: All job post have a
               24hrs verification period before appearing on the site
-            </h5>
+            </h5> */}
           </div>
         </div>
       </div>
@@ -188,6 +208,30 @@ const PostJob = () => {
                           />
                         </div>
                       </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group app-label mt-2">
+                          <label className="text-muted">
+                            Company Email Address
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control resume"
+                            onChange={(e) => setJobCompanyEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group app-label mt-2">
+                          <label className="text-muted">Company Name</label>
+                          <input
+                            type="text"
+                            className="form-control resume"
+                            onChange={(e) => setCompanyName(e.target.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col-md-12">
@@ -198,21 +242,6 @@ const PostJob = () => {
                             className="form-control resume"
                             placeholder="Enter Salary eg: GH₵ 1000"
                             onChange={(e) => setJobSalary(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">
-                            Company Email Address
-                          </label>
-                          <input
-                            type="email"
-                            className="form-control resume"
-                            onChange={(e) => setJobCompanyEmail(e.target.value)}
                           />
                         </div>
                       </div>

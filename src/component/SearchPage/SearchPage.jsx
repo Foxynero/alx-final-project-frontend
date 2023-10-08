@@ -49,7 +49,7 @@ const SearchPage = () => {
             <div className="home-registration-form p-4 mb-3">
               <form className="registration-form" onSubmit={handleSubmit}>
                 <div className="row">
-                  <div className="col-lg-3 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <i className="fa fa-briefcase" />
                       <input
@@ -61,7 +61,7 @@ const SearchPage = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <i className="fa fa-location-arrow" />
                       <input
@@ -72,26 +72,8 @@ const SearchPage = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 col-md-6">
-                    <div className="registration-form-box">
-                      <i className="fa fa-list-alt" />
-                      <select
-                        id="select-category"
-                        className="form-control rounded registration-input-box"
-                        onChange={(e) => setJobCategory(e.target.value)}>
-                        <option value="">Categories...</option>
-                        {popular &&
-                          popular.map((item) => {
-                            return (
-                              <option value={item.category_name} key={item._id}>
-                                {item.category_name}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-md-6">
+
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <input
                         type="submit"
