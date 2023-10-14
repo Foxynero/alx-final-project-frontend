@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const AppliedTable = () => {
+const SeekerAppliedTable = () => {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState(null);
 
@@ -66,8 +66,8 @@ const AppliedTable = () => {
               rowsPerPageOptions={[15, 20, 25, 50]}
               tableStyle={{ minWidth: "50rem" }}>
               <Column
-                field="user_name"
-                header="job seeker name"
+                field="company_name"
+                header="company name"
                 style={{ width: "20%" }}></Column>
 
               <Column
@@ -80,11 +80,11 @@ const AppliedTable = () => {
                 body={(rowData) => (
                   <>
                     <div className="flex align-items-center">
-                      <span>{rowData.date_applied.slice(0, 10)} </span>
+                      <span>{rowData.date_applied} </span>
                     </div>
                   </>
                 )}
-                style={{ width: "10%" }}></Column>
+                style={{ width: "20%" }}></Column>
 
               <Column
                 header="job experience"
@@ -116,7 +116,7 @@ const AppliedTable = () => {
                     </div>
                   </>
                 )}
-                style={{ width: "10%" }}></Column>
+                style={{ width: "20%" }}></Column>
               <Column
                 header="Action"
                 body={(rowData) => (
@@ -124,11 +124,11 @@ const AppliedTable = () => {
                     <div className="flex align-items-center">
                       <Link
                         to={{
-                          pathname: `/view-applied-job`,
+                          pathname: `/view-seeker-applied-job`,
                           search: `?query=${rowData._id}`,
                         }}
                         className="btn btn-warning">
-                        view details
+                        view
                       </Link>
                     </div>
                   </>
@@ -142,4 +142,4 @@ const AppliedTable = () => {
   );
 };
 
-export default AppliedTable;
+export default SeekerAppliedTable;

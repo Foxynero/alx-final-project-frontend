@@ -1,22 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Toast } from "primereact/toast";
 import queryString from "query-string";
 import Footer from "../Views/Footer";
 import Header from "../Views/Header";
 import axios from "axios";
 
 const JobDetails = () => {
+  const user_id = sessionStorage.getItem("user_id"); // get user_id from session storage
+  const [jobDetails, setJobDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState("");
   const { search } = useLocation();
   const { query } = queryString.parse(search);
-  // get user_id from session storage
-  const user_id = sessionStorage.getItem("user_id");
-
-  const [jobDetails, setJobDetails] = useState([]);
-  const [file, setFile] = useState("");
+  const toast = useRef(null);
 
   // on change of file
   const onFileChange = (e) => {
     console.log(e.target.files);
+
+    // check if file size is less than 1mb
+    if (e.target.files[0].size > 1000000) {
+      alert("File size should be less than 1mb");
+      e.target.value = "";
+      return false;
+    }
+
     setFile(e.target.files[0]);
     console.log(file);
   };
@@ -39,14 +48,19 @@ const JobDetails = () => {
 
   const applyJobHandler = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData();
     formData.append("resume", file);
     formData.append("job_id", query);
     formData.append("user_id", user_id);
 
     if (!user_id) {
-      alert("Please login to apply for job");
-      window.location.href = "/login";
+      show("Please login to apply for job", 400);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 4000);
+      // setLoading(false);
     } else {
       axios
         .post(
@@ -60,8 +74,10 @@ const JobDetails = () => {
         )
         .then((res) => {
           console.log(res.data);
-          alert(res.data.message);
-          window.location.reload();
+          show(res.data.message, res.data.status);
+          setTimeout(() => {
+            window.location.reload();
+          }, 4000);
         })
         .catch((err) => {
           console.log(err);
@@ -69,11 +85,20 @@ const JobDetails = () => {
     }
   };
 
+  // todo: show toast
+  const show = (message, status) => {
+    toast.current.show({
+      severity: status === 200 ? "success" : "error",
+      summary: status === 200 ? "success" : "error",
+      detail: message,
+    });
+  };
+
   return (
-    <div>
-      {/* Navigation Bar*/}
+    <>
+      <Toast ref={toast} />
+
       <Header />
-      {/*end header*/}
 
       {/* Start home */}
       <section className="bg-half page-next-level">
@@ -85,9 +110,7 @@ const JobDetails = () => {
                 <h4 className="text-uppercase title mb-4">Job Detail</h4>
                 <ul className="page-next d-inline-block mb-0">
                   <li>
-                    <a
-                      href="index.html"
-                      className="text-uppercase font-weight-bold">
+                    <a href="/" className="text-uppercase font-weight-bold">
                       Home
                     </a>
                   </li>
@@ -109,7 +132,6 @@ const JobDetails = () => {
       </section>
       {/* end home */}
 
-      {/* JOB SINGLE START */}
       {jobDetails && (
         <section className="section pb-5 pt-1">
           <div className="container">
@@ -268,17 +290,34 @@ const JobDetails = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              data-dismiss="modal">
-                              Close
-                            </button>
-                            <button type="submit" className="btn btn-primary">
-                              Submit
-                            </button>
-                          </div>
+                          {loading === false ? (
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-dismiss="modal">
+                                Close
+                              </button>
+                              <button type="submit" className="btn btn-primary">
+                                Submit
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-dismiss="modal">
+                                Close
+                              </button>
+                              <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled>
+                                Submit
+                              </button>
+                            </div>
+                          )}
                         </form>
                       </div>
                     </div>
@@ -374,12 +413,9 @@ const JobDetails = () => {
           </div>
         </section>
       )}
-      {/* JOB SINGLE END */}
 
-      {/* footer start */}
       <Footer />
-      {/* footer end */}
-    </div>
+    </>
   );
 };
 

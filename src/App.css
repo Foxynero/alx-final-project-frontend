@@ -1390,6 +1390,7 @@ p {
   font-weight: 400;
   letter-spacing: 0.02em;
   padding-right: 10px;
+  margin-top: 10px;
 }
 
 .tagline .phone {
@@ -2807,4 +2808,8 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+* {
+  /* outline: 2px solid red; */
 }

@@ -1,19 +1,33 @@
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import axios from "axios";
 
 const Register = () => {
   const [confirm_password, setConfirmPassword] = useState("");
   const [first_name, setFirstName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [last_name, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const toast = useRef(null);
+
+  // todo: show toast
+  const show = (message, status) => {
+    toast.current.show({
+      severity: status === 201 ? "success" : "error",
+      summary: status === 201 ? "success" : "error",
+      detail: message,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (password !== confirm_password) {
-      alert("Password and Confirm Password does not match");
+      show("Password and Confirm Password does not match", 400);
+      setLoading(false);
     } else {
       axios
         .post(`${process.env.REACT_APP_Base_url}/users/register`, {
@@ -25,7 +39,9 @@ const Register = () => {
         })
         .then((res) => {
           console.log(res.data);
-          alert(res.data.message);
+          show(res.data.message, res.data.status);
+          setLoading(false);
+
           if (res.data.status === 201) {
             window.location.href = "/login";
           }
@@ -37,13 +53,10 @@ const Register = () => {
   };
 
   return (
-    <div>
-      {/* Hero Start */}
-      <section
-        className="vh-100"
-        style={{
-          backgroundColor: "#eee",
-        }}>
+    <>
+      <Toast ref={toast} />
+
+      <section className="vh-100" style={{ backgroundColor: "lightgray" }}>
         <div className="home-center">
           <div className="home-desc-center">
             <div className="container">
@@ -164,13 +177,25 @@ const Register = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-12">
-                          <button
-                            className="btn btn-primary w-100"
-                            type="submit">
-                            Register
-                          </button>
-                        </div>
+                        {loading === false ? (
+                          <div className="col-md-12">
+                            <button
+                              className="btn btn-primary w-100"
+                              type="submit">
+                              Register
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="col-md-12">
+                            <button
+                              className="btn btn-primary w-100"
+                              disabled
+                              type="submit">
+                              Loading ...
+                            </button>
+                          </div>
+                        )}
+
                         <div className="col-lg-12 mt-4 text-center">
                           <h6>Or Signup With</h6>
                           <ul className="list-unstyled social-icon mb-0 mt-3">
@@ -225,8 +250,7 @@ const Register = () => {
           </div>
         </div>
       </section>
-      {/*end section*/}
-    </div>
+    </>
   );
 };
 

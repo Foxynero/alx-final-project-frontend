@@ -41,6 +41,13 @@ const Header = () => {
     }
   }, [token, user_id]);
 
+  // todo: logout
+  const handleLogout = (e) => {
+    e.preventDefault();
+    sessionStorage.clear();
+    window.location.href = "/";
+  };
+
   return (
     <div>
       <header id="topnav" className="defaultscroll scroll-active">
@@ -66,7 +73,9 @@ const Header = () => {
                     <ul
                       className="topbar-list list-unstyled d-flex"
                       style={{ margin: "11px 0px" }}>
-                      <li className="list-inline-item">
+                      <li
+                        className="list-inline-item"
+                        style={{ marginTop: "10px" }}>
                         <a
                           href="/login"
                           className="d-flex justify-content-center">
@@ -87,15 +96,42 @@ const Header = () => {
                         className="topbar-list list-unstyled d-flex"
                         style={{ margin: "11px 0px" }}>
                         <li className="list-inline-item">
-                          <a href="/" className="d-flex justify-content-center">
-                            <div className="mx-2">
+                          <section
+                            style={{ marginTop: "6px" }}
+                            className="d-flex justify-content-center">
+                            <div className="d-flex">
                               <span className="rounded-circle bg-light text-dark p-2">
                                 {userData?.first_name[0]}{" "}
                                 {userData?.last_name[0]}
                               </span>
                             </div>
-                            {userData?.first_name} {userData?.last_name}
-                          </a>
+                          </section>
+                        </li>
+                        <li className="list-inline-item">
+                          <div className="dropdown">
+                            <a
+                              className="btn dropdown-toggle"
+                              href="#/"
+                              role="button"
+                              data-toggle="dropdown"
+                              aria-expanded="false">
+                              {userData?.first_name} {userData?.last_name}
+                            </a>
+
+                            <div className="dropdown-menu">
+                              <a
+                                className="dropdown-item text-dark"
+                                href="/profile">
+                                profile
+                              </a>
+                              <a
+                                className="dropdown-item text-dark"
+                                href="#/"
+                                onClick={handleLogout}>
+                                logout
+                              </a>
+                            </div>
+                          </div>
                         </li>
                       </ul>
                     </div>

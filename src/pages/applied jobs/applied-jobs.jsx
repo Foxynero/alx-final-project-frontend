@@ -1,5 +1,4 @@
 import Preference from "../../component/preference/preference";
-import ActiveTable from "../../component/tables/activeTable";
 import JobsHeader from "../../component/Views/Jobs_Header";
 import Footer from "../../component/Views/Footer";
 import AppliedTable from "../../component/tables/appliedTable";

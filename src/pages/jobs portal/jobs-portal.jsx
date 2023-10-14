@@ -1,7 +1,7 @@
-import Preference from "../../component/preference/preference";
 import ActiveTable from "../../component/tables/activeTable";
 import JobsHeader from "../../component/Views/Jobs_Header";
 import Footer from "../../component/Views/Footer";
+import SeekerAppliedTable from "../../component/tables/seeker_appliedTable";
 
 const JobsPortal = () => {
   const role = sessionStorage.getItem("role");
@@ -26,7 +26,7 @@ const JobsPortal = () => {
           <section className="section py-3">
             <section className="section bg-light py-3">
               <div className="container">
-                <Preference />
+                <SeekerAppliedTable />
               </div>
             </section>
           </section>
