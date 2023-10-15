@@ -3,26 +3,23 @@ import A from "../images/logo-light.png";
 import B from "../images/logo-dark.png";
 import axios from "axios";
 
-const Header = () => {
+const JobsHeader = () => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [user_id, setUserId] = useState(null);
+
+  // get role from session storage
+  const role = sessionStorage.getItem("role");
 
   useEffect(() => {
     const tk = sessionStorage.getItem("token");
-    const user = sessionStorage.getItem("user_id");
-    setUserId(user);
-
     setToken(tk);
-  }, []);
 
-  useEffect(() => {
     if (token) {
       axios
         .post(
           `${process.env.REACT_APP_Base_url}/users/user_details`,
           {
-            user_id: user_id,
+            user_id: sessionStorage.getItem("user_id"),
           },
           {
             headers: {
@@ -39,7 +36,7 @@ const Header = () => {
           console.log(err);
         });
     }
-  }, [token, user_id]);
+  }, [token]);
 
   // todo: logout
   const handleLogout = (e) => {
@@ -61,34 +58,13 @@ const Header = () => {
                 </a>
               </div>
               <div className="email">
-                <a href="mailto:customerservices@jobya.com">
+                <a href="mailto:flexywork327@gmail.com">
                   <i className="mdi mdi-email" /> customerservices@jobya.com
                 </a>
               </div>
             </div>
             <div>
-              {token === null ? (
-                <>
-                  <div className="float-right">
-                    <ul
-                      className="topbar-list list-unstyled d-flex"
-                      style={{ margin: "11px 0px" }}>
-                      <li
-                        className="list-inline-item"
-                        style={{ marginTop: "10px" }}>
-                        <a
-                          href="/login"
-                          className="d-flex justify-content-center">
-                          <span className="mx-2">
-                            <i className="mdi mdi-account" />
-                          </span>
-                          login
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </>
-              ) : (
+              {token === null ? null : (
                 <>
                   {userData && (
                     <div className="float-right">
@@ -154,7 +130,7 @@ const Header = () => {
             </a>
           </div>
           <div className="buy-button">
-            <a href="/post-job" className="btn btn-primary">
+            <a href="/post_job" className="btn btn-primary">
               <i className="mdi mdi-cloud-upload" /> want to post ?
             </a>
           </div>
@@ -172,21 +148,35 @@ const Header = () => {
               {/* End mobile menu toggle*/}
             </div>
           </div>
-          <div id="navigation">
-            {/* Navigation Menu*/}
-            <ul className="navigation-menu">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li className="has-submenu">
-                <a href="/jobs">Jobs</a>
-              </li>
-              <li className="has-submenu">
-                <a href="/jobs-portal">My Job Portal</a>
-              </li>
-            </ul>
-            {/*end navigation menu*/}
-          </div>
+          {role && role === "creator" ? (
+            <div id="navigation">
+              {/* Navigation Menu*/}
+              <ul className="navigation-menu">
+                <li className="has-submenu">
+                  <a href="/jobs-portal">Jobs Dashboard</a>
+                </li>
+
+                <li className="has-submenu">
+                  <a href="/applied-jobs">Jobs Applied</a>
+                </li>
+              </ul>
+              {/*end navigation menu*/}
+            </div>
+          ) : (
+            <div id="navigation">
+              {/* Navigation Menu*/}
+              <ul className="navigation-menu">
+                <li className="has-submenu">
+                  <a href="/jobs-portal">Applied Jobs</a>
+                </li>
+                <li className="has-submenu">
+                  <a href="/seeker-profile">Profile</a>
+                </li>
+              </ul>
+              {/*end navigation menu*/}
+            </div>
+          )}
+
           {/*end navigation*/}
         </div>
         {/*end container*/}
@@ -196,4 +186,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default JobsHeader;

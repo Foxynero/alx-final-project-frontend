@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import { useRef, useState } from "react";
 import axios from "axios";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const toast = useRef(null);
+
+  // todo: show toast
+  const show = (message, status) => {
+    toast.current.show({
+      severity: status === 200 ? "success" : "error",
+      summary: status === 200 ? "success" : "error",
+      detail: message,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     axios
       .post(`${process.env.REACT_APP_Base_url}/users/login`, {
         email,
@@ -14,9 +28,17 @@ const Login = () => {
       })
       .then((res) => {
         console.log(res);
-        alert(res.data.message);
+        show(res.data.message, res.data.status);
+        setLoading(false);
+
         if (res.data.status === 200) {
           sessionStorage.setItem("token", res.data.token);
+          sessionStorage.setItem("user_id", res.data.info._id);
+          sessionStorage.setItem("role", res.data.info.role);
+          sessionStorage.setItem(
+            "preference",
+            res.data.info.isPreferenceSelected
+          );
           window.location.href = "/";
         }
       })
@@ -26,7 +48,8 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
+      <Toast ref={toast} />
       <div className="back-to-home rounded d-none d-sm-block">
         <a href="/" className="text-white rounded d-inline-block text-center">
           <i className="mdi mdi-home" />
@@ -36,14 +59,13 @@ const Login = () => {
       <section
         className="vh-100"
         style={{
-          background:
-            'url("https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/") center center',
+          backgroundColor: "lightgray",
         }}>
         <div className="home-center">
           <div className="home-desc-center">
             <div className="container">
               <div className="row justify-content-center">
-                <div className="col-lg-4 col-md-6">
+                <div className="col-lg-8 col-md-8 col-sm-12">
                   <div className="login-page bg-white shadow rounded p-4">
                     <div className="text-center">
                       <h4 className="mb-4">Login</h4>
@@ -105,11 +127,21 @@ const Login = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-lg-12 mb-0">
-                          <button className="btn btn-primary w-100">
-                            Sign in
-                          </button>
-                        </div>
+                        {/* change button to loading when setLoading is true */}
+                        {loading === false ? (
+                          <div className="col-lg-12 mb-0">
+                            <button className="btn btn-primary w-100">
+                              Sign in
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="col-lg-12 mb-0">
+                            <button className="btn btn-primary w-100" disabled>
+                              Loading...
+                            </button>
+                          </div>
+                        )}
+
                         <div className="col-lg-12 mt-4 text-center">
                           <h6>Or Login With</h6>
                           <ul className="list-unstyled social-icon mb-0 mt-3">
@@ -142,13 +174,13 @@ const Login = () => {
                         </div>
                         <div className="col-12 text-center">
                           <p className="mb-0 mt-3">
-                            <small className="text-dark mr-2">
+                            <small className="text-dark mr-1">
                               Don't have an account ?
                             </small>{" "}
                             <a
                               href="/register"
-                              className="text-dark font-weight-bold">
-                              Sign Up
+                              className="text-danger font-weight-bold">
+                              sign up
                             </a>
                           </p>
                         </div>
@@ -167,7 +199,7 @@ const Login = () => {
       </section>
       {/*end section*/}
       {/* Hero End */}
-    </div>
+    </>
   );
 };
 

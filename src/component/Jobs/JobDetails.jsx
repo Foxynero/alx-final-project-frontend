@@ -1,55 +1,104 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Toast } from "primereact/toast";
+import queryString from "query-string";
 import Footer from "../Views/Footer";
 import Header from "../Views/Header";
 import axios from "axios";
 
-const JobDetails = (props) => {
-  // window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-  console.log(props);
-
+const JobDetails = () => {
+  const user_id = sessionStorage.getItem("user_id"); // get user_id from session storage
   const [jobDetails, setJobDetails] = useState([]);
-  const [token, setToken] = useState("");
-  const [id, setId] = useState(null);
-  // const [fileData, setFile] = useState(" ");
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState("");
+  const { search } = useLocation();
+  const { query } = queryString.parse(search);
+  const toast = useRef(null);
 
-  useEffect(() => {
-    const tk = sessionStorage.getItem("token");
-    setToken(tk);
-    if (props.location.state) {
-      setId(props.location.state.id);
+  // on change of file
+  const onFileChange = (e) => {
+    console.log(e.target.files);
+
+    // check if file size is less than 1mb
+    if (e.target.files[0].size > 1000000) {
+      alert("File size should be less than 1mb");
+      e.target.value = "";
+      return false;
     }
-  }, [props.location]);
+
+    setFile(e.target.files[0]);
+    console.log(file);
+  };
 
   useEffect(() => {
-    if (id) {
+    if (query) {
       axios
-        .post(
-          `${process.env.REACT_APP_Base_url}/jobs/job_details`,
-          {
-            job_id: id,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        .post(`${process.env.REACT_APP_Base_url}/jobs/get_job_details`, {
+          job_id: query,
+        })
         .then((res) => {
           console.log(res.data);
-          setJobDetails(res.data.job);
+          setJobDetails(res.data.info);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [id, token]);
+  }, [query]);
+
+  const applyJobHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("job_id", query);
+    formData.append("user_id", user_id);
+
+    if (!user_id) {
+      show("Please login to apply for job", 400);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 4000);
+      // setLoading(false);
+    } else {
+      axios
+        .post(
+          `${process.env.REACT_APP_Base_url}/jobs/apply_for_job`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          show(res.data.message, res.data.status);
+          setTimeout(() => {
+            window.location.reload();
+          }, 4000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  // todo: show toast
+  const show = (message, status) => {
+    toast.current.show({
+      severity: status === 200 ? "success" : "error",
+      summary: status === 200 ? "success" : "error",
+      detail: message,
+    });
+  };
 
   return (
-    <div>
-      {/* Navigation Bar*/}
+    <>
+      <Toast ref={toast} />
+
       <Header />
-      {/*end header*/}
 
       {/* Start home */}
       <section className="bg-half page-next-level">
@@ -61,9 +110,7 @@ const JobDetails = (props) => {
                 <h4 className="text-uppercase title mb-4">Job Detail</h4>
                 <ul className="page-next d-inline-block mb-0">
                   <li>
-                    <a
-                      href="index.html"
-                      className="text-uppercase font-weight-bold">
+                    <a href="/" className="text-uppercase font-weight-bold">
                       Home
                     </a>
                   </li>
@@ -74,7 +121,7 @@ const JobDetails = (props) => {
                   </li>
                   <li>
                     <span className="text-uppercase text-white font-weight-bold">
-                      Job Detail two
+                      Job Detail
                     </span>
                   </li>
                 </ul>
@@ -85,7 +132,6 @@ const JobDetails = (props) => {
       </section>
       {/* end home */}
 
-      {/* JOB SINGLE START */}
       {jobDetails && (
         <section className="section pb-5 pt-1">
           <div className="container">
@@ -107,14 +153,16 @@ const JobDetails = (props) => {
                   <ul className="list-inline mb-0">
                     <li className="list-inline-item mr-3">
                       <p className="text-muted mb-2">
-                        <i className="mdi mdi-email mr-1" />
-                        {jobDetails.job_company_email}
+                        <i className="mdi mdi-home mr-1" />
+                        {jobDetails.job_company_name}
                       </p>
                     </li>
-                    <li className="list-inline-item">
+                  </ul>
+                  <ul className="list-inline mb-0">
+                    <li className="list-inline-item mr-3">
                       <p className="text-muted mb-2">
-                        <i className="mdi mdi-phone mr-1" />
-                        {jobDetails.job_company_phone}
+                        <i className="mdi mdi-email mr-1" />
+                        {jobDetails.job_company_email}
                       </p>
                     </li>
                   </ul>
@@ -180,39 +228,117 @@ const JobDetails = (props) => {
                   </div>
                 </div>
 
-                {/* <div className="row">
-                  <div className="col-md-12 py-3">
-                    <ul className="list-inline mb-0">
-                      <li className="list-inline-item">
-                        <div className="input-group mt-2 mb-2">
-                          <form onSubmit={uploadImage}>
-                            <div className="custom-file">
-                              <div className="input-group mb-3">
-                                <input
-                                  type="file"
-                                  className="form-control"
-                                  id="inputGroupFile02"
-                                  accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                  onChange={(e) => setFile(e.target.files[0])}
-                                />
+                <>
+                  {/* <!-- Button trigger modal --> */}
+                  <button
+                    type="button"
+                    className="btn btn-primary my-5 p-3 btn-block"
+                    data-toggle="modal"
+                    data-target="#exampleModal">
+                    apply now
+                  </button>
+
+                  {/* <!-- Modal --> */}
+                  <div
+                    className="modal fade"
+                    id="exampleModal"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="exampleModalLabel">
+                            complete job application
+                          </h5>
+                          <button
+                            type="button"
+                            className="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form onSubmit={applyJobHandler}>
+                          <div className="modal-body">
+                            <div className="row">
+                              <div className="col-12 py-3">
+                                <ul className="list-inline mb-0">
+                                  <li className="list-inline-item">
+                                    <div className="input-group mt-2 mb-2">
+                                      <div className="custom-file">
+                                        <div className="input-group mb-3">
+                                          <label
+                                            className="input-group-text"
+                                            htmlFor="inputGroupFile01">
+                                            Upload CV
+                                          </label>
+                                          <input
+                                            type="file"
+                                            className="form-control block"
+                                            accept="application/pdf,application/msword"
+                                            onChange={onFileChange}
+                                            required
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <br />
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
-                            <button
-                              type="submit"
-                              className="btn btn-primary btn-sm ml-2 btn-block my-3">
-                              Submit CV
-                            </button>
-                          </form>
-                          <br />
-                        </div>
-                      </li>
-                    </ul>
+                          </div>
+                          {loading === false ? (
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-dismiss="modal">
+                                Close
+                              </button>
+                              <button type="submit" className="btn btn-primary">
+                                Submit
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-dismiss="modal">
+                                Close
+                              </button>
+                              <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled>
+                                Submit
+                              </button>
+                            </div>
+                          )}
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </div> */}
+                </>
               </div>
 
               <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div className="job-detail rounded border job-overview mt-4 mb-4">
+                  <div className="single-post-item mb-4">
+                    <div className="float-left mr-3">
+                      <i className="mdi mdi-home text-muted mdi-24px" />
+                    </div>
+                    <div className="overview-details">
+                      <h6 className="text-muted mb-0">Company name</h6>
+                      <h6 className="text-black-50 pt-2 mb-0">
+                        {jobDetails.job_company_name}
+                      </h6>
+                    </div>
+                  </div>
+
                   <div className="single-post-item mb-4">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-security text-muted mdi-24px" />
@@ -220,7 +346,7 @@ const JobDetails = (props) => {
                     <div className="overview-details">
                       <h6 className="text-muted mb-0">Experience</h6>
                       <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_experience}
+                        {jobDetails.job_experience} year(s)
                       </h6>
                     </div>
                   </div>
@@ -246,17 +372,7 @@ const JobDetails = (props) => {
                       </h6>
                     </div>
                   </div>
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-human-male-female text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Gender</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_gender}
-                      </h6>
-                    </div>
-                  </div>
+
                   <div className="single-post-item mb-4">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-calendar-today text-muted mdi-24px" />
@@ -279,17 +395,7 @@ const JobDetails = (props) => {
                       </h6>
                     </div>
                   </div>
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-phone-classic text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Contact No</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_company_phone}
-                      </h6>
-                    </div>
-                  </div>
+
                   <div className="single-post-item">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-map-marker text-muted mdi-24px" />
@@ -307,12 +413,9 @@ const JobDetails = (props) => {
           </div>
         </section>
       )}
-      {/* JOB SINGLE END */}
 
-      {/* footer start */}
       <Footer />
-      {/* footer end */}
-    </div>
+    </>
   );
 };
 

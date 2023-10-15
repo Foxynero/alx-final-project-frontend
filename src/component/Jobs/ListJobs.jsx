@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const ListJobs = () => {
   const [data, setData] = useState([]);
@@ -10,7 +10,7 @@ const ListJobs = () => {
       .get(`${process.env.REACT_APP_Base_url}/jobs/active`)
       .then((res) => {
         console.log(res.data);
-        setData(res.data.job);
+        setData(res.data.info);
       })
       .catch((err) => {
         console.log(err);
@@ -73,8 +73,8 @@ const ListJobs = () => {
                                 <div>
                                   <Link
                                     to={{
-                                      pathname: `/job_details`,
-                                      state: { id: item._id },
+                                      pathname: `/job-details`,
+                                      search: `?query=${item._id}`,
                                     }}
                                     className="text-primary">
                                     Apply Now

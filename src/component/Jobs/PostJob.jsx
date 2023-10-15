@@ -8,73 +8,75 @@ const PostJob = () => {
   const [job_type, setJobType] = useState("");
   const [job_category, setJobCategory] = useState("");
   const [job_location, setJobLocation] = useState("");
-  const [job_country, setCountry] = useState("");
   const [job_salary, setJobSalary] = useState("");
-  const [job_education, setJobEducation] = useState("");
   const [job_experience, setJobExperience] = useState("");
   const [job_company_email, setJobCompanyEmail] = useState("");
-  const [job_company_phone, setJobCompanyPhone] = useState("");
-  const [job_gender, setJobGender] = useState("");
-  const [jobshift, setJobShift] = useState("");
+  const [job_company_name, setCompanyName] = useState("");
   const [job_description, setJobDescription] = useState("");
-  const [file, setFile] = useState("");
   const [categories, setCategories] = useState([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(null);
+
+  const [user_id, setUserId] = useState(null);
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
+    const tk = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user_id");
+    setUserId(user);
 
+    setToken(tk);
+  }, []);
+
+  console.log(user_id);
+  console.log(token);
+
+  useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
         console.log(res.data);
-        setCategories(res.data.categories);
+        setCategories(res.data.info);
       });
   }, []);
 
-  const onFileChange = (e) => {
-    console.log(e.target.files[0]);
-    if (e.target && e.target.files[0].size < 5000000) {
-      setFile(e.target.files[0]);
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("job_title", job_title);
-    formData.append("job_type", job_type);
-    formData.append("job_category", job_category);
-    formData.append("job_location", job_location);
-    formData.append("job_country", job_country);
-    formData.append("job_salary", job_salary);
-    formData.append("job_education", job_education);
-    formData.append("job_experience", job_experience);
-    formData.append("job_company_email", job_company_email);
-    formData.append("job_company_phone", job_company_phone);
-    formData.append("job_gender", job_gender);
-    formData.append("jobshift", jobshift);
-    formData.append("job_description", job_description);
-    formData.append("job_image", file);
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
+    if (!token) {
+      alert("Please login to post a job");
+      return;
+    } else {
+      await axios
+        .post(
+          `${process.env.REACT_APP_Base_url}/jobs/create_job`,
+          {
+            user_id: user_id,
+            job_title: job_title,
+            job_type: job_type,
+            job_category: job_category,
+            job_location: job_location,
+            job_salary: job_salary,
+            job_experience: job_experience,
+            job_company_email: job_company_email,
+            job_company_name: job_company_name,
+            job_description: job_description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          alert(res.data.message);
+          if (res.data.status === 201) {
+            window.location.href = "/jobs";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-
-    await axios
-      .post(`${process.env.REACT_APP_Base_url}/jobs/job`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        alert(res.data.message);
-        window.location.href = "/jobs";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -113,10 +115,10 @@ const PostJob = () => {
       <div className="container">
         <div className="row text-center p-3">
           <div className="col-md-12">
-            <h5>
+            {/* <h5>
               <span style={{ color: "red" }}>NB</span>: All job post have a
               24hrs verification period before appearing on the site
-            </h5>
+            </h5> */}
           </div>
         </div>
       </div>
@@ -188,7 +190,7 @@ const PostJob = () => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group app-label mt-2">
-                          <label className="text-muted">City</label>
+                          <label className="text-muted">Location</label>
                           <input
                             type="text"
                             className="form-control resume"
@@ -198,15 +200,36 @@ const PostJob = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group app-label mt-2">
-                          <label className="text-muted">Country</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setCountry(e.target.value)}>
-                              <option data-display="Country">----</option>
-                              <option value={"Ghana"}>Ghana</option>
-                            </select>
-                          </div>
+                          <label className="text-muted">Experience</label>
+                          <input
+                            type="number"
+                            className="form-control resume"
+                            onChange={(e) => setJobExperience(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group app-label mt-2">
+                          <label className="text-muted">
+                            Company Email Address
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control resume"
+                            onChange={(e) => setJobCompanyEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group app-label mt-2">
+                          <label className="text-muted">Company Name</label>
+                          <input
+                            type="text"
+                            className="form-control resume"
+                            onChange={(e) => setCompanyName(e.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
@@ -215,110 +238,11 @@ const PostJob = () => {
                         <div className="form-group app-label mt-2">
                           <label className="text-muted"> Salary</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control resume"
                             placeholder="Enter Salary eg: GH₵ 1000"
                             onChange={(e) => setJobSalary(e.target.value)}
                           />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Education Level</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobEducation(e.target.value)}>
-                              <option data-display="Level">-----</option>
-                              <option value={"Basic Level"}>Basic Level</option>
-                              <option value={"SHS Level"}>SHS Level</option>
-                              <option value={"Tertiary Level"}>
-                                Tertiary Level
-                              </option>
-                              <option value={"Advance Level"}>
-                                Advance Level
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">
-                            Year of Experience
-                          </label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) =>
-                                setJobExperience(e.target.value)
-                              }>
-                              <option data-display="Experience">-----</option>
-                              <option value={"1"}>1 Year</option>
-                              <option value={"2"}>2 Year</option>
-                              <option value={"3"}>3 Year</option>
-                              <option value={"4"}>4 Year</option>
-                              <option value={"5+"}>5+ Year</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Email Address</label>
-                          <input
-                            type="text"
-                            className="form-control resume"
-                            onChange={(e) => setJobCompanyEmail(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Phone Number</label>
-                          <input
-                            type="tel"
-                            minLength={10}
-                            maxLength={10}
-                            className="form-control resume"
-                            onChange={(e) => setJobCompanyPhone(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Gender</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobGender(e.target.value)}>
-                              <option data-display="Gender">----</option>
-                              <option value={"Male"}>Male</option>
-                              <option value={"Female"}>Female</option>
-                              <option value={"unisex"}>Unisex</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Shift</label>
-                          <div className="form-button">
-                            <select
-                              className="nice-select rounded"
-                              onChange={(e) => setJobShift(e.target.value)}>
-                              <option data-display="Shift">---</option>
-                              <option value={"Morning"}>Morning</option>
-                              <option value={"Evening"}>Evening</option>
-                            </select>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -338,23 +262,11 @@ const PostJob = () => {
                     </div>
 
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group app-label mt-2">
-                          <label className="text-muted">Job Image</label>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="form-control resume"
-                            onChange={onFileChange}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
                       <div className="col-lg-12 mt-2">
-                        <button type="submit" className="btn btn-primary">
-                          Post a Job
+                        <button
+                          type="submit"
+                          className="btn btn-primary btn-lg btn-block">
+                          Post Job
                         </button>
                       </div>
                     </div>

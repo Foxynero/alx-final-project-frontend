@@ -1,4 +1,3 @@
-import React from "react";
 import SearchPage from "../SearchPage/SearchPage";
 
 const Banner = () => {
@@ -14,7 +13,7 @@ const Banner = () => {
                   <div className="title-heading text-center text-white">
                     <h6 className="small-title text-uppercase text-light mb-3">
                       Post jobs as an institution or Find your dream job right
-                      here
+                      here as a seeker
                     </h6>
                     <h1 className="heading font-weight-bold mb-4">
                       The Easiest Way to Get Your New Job

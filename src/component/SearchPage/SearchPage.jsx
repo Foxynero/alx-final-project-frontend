@@ -12,9 +12,9 @@ const SearchPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
-        setPopular(res.data.categories);
+        setPopular(res.data.info);
         console.log(res.data);
       });
   }, []);
@@ -23,7 +23,7 @@ const SearchPage = () => {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_Base_url}/seeker/job_filter`, {
+      .post(`${process.env.REACT_APP_Base_url}/jobs/job_search`, {
         job_title,
         job_category,
         job_location,
@@ -31,7 +31,7 @@ const SearchPage = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 200) {
-          navigate("/search_results", { state: { jobs: res.data.job } });
+          navigate("/search_results", { state: { jobs: res.data.info } });
         } else {
           alert(res.data.message);
         }
@@ -49,19 +49,19 @@ const SearchPage = () => {
             <div className="home-registration-form p-4 mb-3">
               <form className="registration-form" onSubmit={handleSubmit}>
                 <div className="row">
-                  <div className="col-lg-3 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <i className="fa fa-briefcase" />
                       <input
                         type="text"
                         id="exampleInputName1"
                         className="form-control rounded registration-input-box"
-                        placeholder="Job keybords..."
+                        placeholder="Job keywords..."
                         onChange={(e) => setJobTitle(e.target.value)}
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <i className="fa fa-location-arrow" />
                       <input
@@ -72,26 +72,8 @@ const SearchPage = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3 col-md-6">
-                    <div className="registration-form-box">
-                      <i className="fa fa-list-alt" />
-                      <select
-                        id="select-category"
-                        className="form-control rounded registration-input-box"
-                        onChange={(e) => setJobCategory(e.target.value)}>
-                        <option value="">Categories...</option>
-                        {popular &&
-                          popular.map((item) => {
-                            return (
-                              <option value={item.category_name} key={item._id}>
-                                {item.category_name}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-md-6">
+
+                  <div className="col-lg-4 col-md-6">
                     <div className="registration-form-box">
                       <input
                         type="submit"

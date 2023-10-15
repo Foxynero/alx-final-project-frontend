@@ -1,25 +1,30 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "./App.css";
-import About from "./component/About/About";
-import AllCategories from "./component/Categories/AllCategories";
-import Dashboard from "./component/Dashboard/Dashboard";
-import Faq from "./component/FAQ/Faq";
-import JobDetails from "./component/Jobs/JobDetails";
-import Jobs from "./component/Jobs/Jobs";
-import PostJob from "./component/Jobs/PostJob";
-import Pricing from "./component/Pricing/Pricing";
-import Register from "./component/Register/Register";
-import Blog from "./component/Blog/Blog";
-import Login from "./component/Login/Login";
+import SeekerAppliedJobDetails from "./pages/details/seeker_applied_Job_Details";
 import ForgotPassword from "./component/ForgotPassword/ForgotPassword";
-import Categories from "./component/Categories/Categories";
-import ErrorPage from "./component/404/ErrorPage";
-import PopularItem from "./component/Popular/PopularItem";
-import ScrollToTop from "./ScrollToTop";
-import ProtectedRoute from "./ProtectedRoute";
+import AppliedJobDetails from "./pages/details/applied_Job_Details";
+import AllCategories from "./component/Categories/AllCategories";
 import DisplaySearch from "./component/SearchPage/DisplaySearch";
+import AppliedJobs from "./pages/applied jobs/applied-jobs";
+import Categories from "./component/Categories/Categories";
+import PopularItem from "./component/Popular/PopularItem";
+import JobsPortal from "./pages/jobs portal/jobs-portal";
+import Dashboard from "./component/Dashboard/Dashboard";
+import JobDetails from "./component/Jobs/JobDetails";
+import Register from "./component/Register/Register";
+import ErrorPage from "./component/404/ErrorPage";
+import Pricing from "./component/Pricing/Pricing";
+import PostJob from "./component/Jobs/PostJob";
+import Profile from "./pages/profile/profile";
+import ProtectedRoute from "./ProtectedRoute";
+import About from "./component/About/About";
+import Login from "./component/Login/Login";
+import Jobs from "./component/Jobs/Jobs";
+import Blog from "./component/Blog/Blog";
+import ScrollToTop from "./ScrollToTop";
+import Faq from "./component/FAQ/Faq";
+import "./App.css";
+import SeekerProfile from "./pages/jobs portal/seeker_Profile";
 
 function App() {
   return (
@@ -30,7 +35,8 @@ function App() {
           <Route path="/forgot_password" element={<ForgotPassword />} />
           <Route path="/all_categories" element={<AllCategories />} />
           <Route path="/search_results" element={<DisplaySearch />} />
-          <Route path="/popular_item" element={<PopularItem />} />
+          <Route path="/popular-item" element={<PopularItem />} />
+          <Route path="/job-details" element={<JobDetails />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/register" element={<Register />} />
           <Route path="/pricing" element={<Pricing />} />
@@ -41,11 +47,18 @@ function App() {
           <Route path="/faq" element={<Faq />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/job_details" element={<JobDetails />} />
-            <Route path="/post_job" element={<PostJob />} />
+            <Route path="/view-applied-job" element={<AppliedJobDetails />} />
+            <Route path="/seeker-profile" element={<SeekerProfile />} />
+            <Route path="/applied-jobs" element={<AppliedJobs />} />
+            <Route path="/jobs-portal" element={<JobsPortal />} />
+            <Route path="/post-job" element={<PostJob />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/view-seeker-applied-job"
+              element={<SeekerAppliedJobDetails />}
+            />
           </Route>
-          <Route path="/error_page" element={<ErrorPage />} />
-          <Route path="/*" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>

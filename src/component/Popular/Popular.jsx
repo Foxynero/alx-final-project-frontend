@@ -7,9 +7,9 @@ const Popular = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_Base_url}/seeker/categories`)
+      .get(`${process.env.REACT_APP_Base_url}/jobs/categories`)
       .then((res) => {
-        setPopular(res.data.categories);
+        setPopular(res.data.info);
         console.log(res.data);
       });
   }, []);
@@ -31,7 +31,7 @@ const Popular = () => {
                 return (
                   <div className="col-lg-3 col-md-6 mt-4 pt-2" key={item._id}>
                     <Link
-                      to={`/popular_item`}
+                      to={`/popular-item`}
                       state={{ category: item.category_name }}>
                       <div className="popu-category-box bg-light rounded text-center p-4">
                         <div className="popu-category-icon mb-3">
