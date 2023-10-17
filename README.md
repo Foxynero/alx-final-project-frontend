@@ -1,6 +1,33 @@
-# ALX Portfolio Project
+# FeFHub - ALX Portfolio Project
 
-Job board for ALX students to find jobs and also for companies to find ALX students
+FeFHub is a web application designed to help ALX students find job opportunities and assist companies in connecting with ALX students. This README provides an overview of the project and how to get it up and running.
+
+Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+ALX students often face challenges when searching for job opportunities, and companies struggle to find suitable ALX student candidates. FeFHub is our solution to bridge this gap. It offers a job board platform where ALX students can explore job postings, and companies can easily share their openings.
+
+## Features
+
+### Admin Dashboard
+
+Admin users can log in and add new job posts.
+
+### Auto-Generation
+
+Admins can generate job posts from templates to streamline the posting process.
+
+### Job Suggestion
+
+Utilizing machine learning, the app suggests job posts based on user information.
 
 ## Problem we are trying to solve
 
@@ -12,6 +39,10 @@ Job board for ALX students to find jobs and also for companies to find ALX stude
 - Create a job board for ALX students to find jobs and connect to companies
 
 ## Features for the App
+
+- **Admin Dashboard**: Admin users can log in and add new job posts.
+- **Auto-Generation**: Admins can generate job posts from templates to streamline the posting process.
+- **Job Suggestion**: Utilizing machine learning, the app suggests job posts based on user information.
 
 1. Being able to add a new job post when logged in as an admin
 2. Being able to auto generate a new job post from a template when logged in as an admin so they dont have to fill in the same information over and over again
@@ -34,29 +65,6 @@ Job board for ALX students to find jobs and also for companies to find ALX stude
 
 
 ********************************************
-# Jobya - ALX Portfolio Project
-
-Jobya is a web application designed to help ALX students find job opportunities and assist companies in connecting with ALX students. This README provides an overview of the project and how to get it up and running.
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Introduction
-
-ALX students often face challenges when searching for job opportunities, and companies struggle to find suitable ALX student candidates. Jobya is our solution to bridge this gap. It offers a job board platform where ALX students can explore job postings and companies can easily share their openings.
-
-## Features
-
-- **Admin Dashboard**: Admin users can log in and add new job posts.
-- **Auto-Generation**: Admins can generate job posts from templates to streamline the posting process.
-- **Job Suggestion**: Utilizing machine learning, the app suggests job posts based on user information.
 
 ## Technologies
 
@@ -76,7 +84,7 @@ To run this project locally, follow these steps:
 2. Navigate to the project directory.
 
    ```bash
-   cd jobya-alx-project
+   cd FeFHub-alx-project
 Install the necessary dependencies.
 
 bash
@@ -94,7 +102,7 @@ Register or log in to your account.
 Explore job postings and apply for positions.
 If you are an admin, log in to the admin dashboard to add new job posts or use the auto-generation feature.
 Contributing
-We welcome contributions from the community to make Jobya even better. To contribute:
+We welcome contributions from the community to make FeFHub even better. To contribute:
 
 Fork the repository.
 Create a new branch for your feature or bug fix.
