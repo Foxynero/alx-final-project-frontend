@@ -29,6 +29,11 @@ Admins can generate job posts from templates to streamline the posting process.
 
 Utilizing machine learning, the app suggests job posts based on user information.
 
+1. Being able to add a new job post when logged in as an admin
+2. Being able to auto generate a new job post from a template when logged in as an admin so they dont have to fill in the same information over and over again
+3. Being able to auto suggest a job post based on the information provided by the user(preferably using machine learning)
+
+
 ## Problem we are trying to solve
 
 1. ALX students have a hard time finding jobs
@@ -38,15 +43,6 @@ Utilizing machine learning, the app suggests job posts based on user information
 
 - Create a job board for ALX students to find jobs and connect to companies
 
-## Features for the App
-
-- **Admin Dashboard**: Admin users can log in and add new job posts.
-- **Auto-Generation**: Admins can generate job posts from templates to streamline the posting process.
-- **Job Suggestion**: Utilizing machine learning, the app suggests job posts based on user information.
-
-1. Being able to add a new job post when logged in as an admin
-2. Being able to auto generate a new job post from a template when logged in as an admin so they dont have to fill in the same information over and over again
-3. Being able to auto suggest a job post based on the information provided by the user(preferably using machine learning)
 
 ## Technologies
 
