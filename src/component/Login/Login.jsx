@@ -1,12 +1,15 @@
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const toast = useRef(null);
+  const location_data = useLocation();
+  console.log(location_data);
 
   // todo: show toast
   const show = (message, status) => {
@@ -39,7 +42,11 @@ const Login = () => {
             "preference",
             res.data.info.isPreferenceSelected
           );
-          window.location.href = "/";
+          if (location_data.state.location) {
+            window.location.href = location_data.state.location.pathname;
+          } else {
+            window.location.href = "/";
+          }
         }
       })
       .catch((err) => {

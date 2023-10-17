@@ -5,7 +5,9 @@ import ForgotPassword from "./component/ForgotPassword/ForgotPassword";
 import AppliedJobDetails from "./pages/details/applied_Job_Details";
 import AllCategories from "./component/Categories/AllCategories";
 import DisplaySearch from "./component/SearchPage/DisplaySearch";
+import SeekerProfile from "./pages/jobs portal/seeker_Profile";
 import AppliedJobs from "./pages/applied jobs/applied-jobs";
+import UpdateProfile from "./pages/profile/update_profile";
 import Categories from "./component/Categories/Categories";
 import PopularItem from "./component/Popular/PopularItem";
 import JobsPortal from "./pages/jobs portal/jobs-portal";
@@ -15,7 +17,7 @@ import Register from "./component/Register/Register";
 import ErrorPage from "./component/404/ErrorPage";
 import Pricing from "./component/Pricing/Pricing";
 import PostJob from "./component/Jobs/PostJob";
-import Profile from "./pages/profile/profile";
+// import Profile from "./pages/profile/profile";
 import ProtectedRoute from "./ProtectedRoute";
 import About from "./component/About/About";
 import Login from "./component/Login/Login";
@@ -24,7 +26,6 @@ import Blog from "./component/Blog/Blog";
 import ScrollToTop from "./ScrollToTop";
 import Faq from "./component/FAQ/Faq";
 import "./App.css";
-import SeekerProfile from "./pages/jobs portal/seeker_Profile";
 
 function App() {
   return (
@@ -49,10 +50,10 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/view-applied-job" element={<AppliedJobDetails />} />
             <Route path="/seeker-profile" element={<SeekerProfile />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
             <Route path="/applied-jobs" element={<AppliedJobs />} />
             <Route path="/jobs-portal" element={<JobsPortal />} />
             <Route path="/post-job" element={<PostJob />} />
-            <Route path="/profile" element={<Profile />} />
             <Route
               path="/view-seeker-applied-job"
               element={<SeekerAppliedJobDetails />}

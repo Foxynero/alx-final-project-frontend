@@ -95,11 +95,13 @@ const JobsHeader = () => {
                             </a>
 
                             <div className="dropdown-menu">
-                              <a
-                                className="dropdown-item text-dark"
-                                href="/profile">
-                                profile
-                              </a>
+                              {role && role === "seeker" ? (
+                                <a
+                                  className="dropdown-item text-dark"
+                                  href="/seeker-profile">
+                                  profile
+                                </a>
+                              ) : null}
                               <a
                                 className="dropdown-item text-dark"
                                 href="#/"
@@ -129,11 +131,20 @@ const JobsHeader = () => {
               <img src={B} alt=".." className="logo-dark" height={18} />
             </a>
           </div>
-          <div className="buy-button">
-            <a href="/post_job" className="btn btn-primary">
-              <i className="mdi mdi-cloud-upload" /> want to post ?
-            </a>
-          </div>
+          {role && role === "seeker" ? (
+            <div className="buy-button">
+              <a href="/jobs-portal" className="btn btn-primary">
+                <i className="mdi mdi-cloud-upload" /> applied jobs
+              </a>
+            </div>
+          ) : (
+            <div className="buy-button">
+              <a href="/post-job" className="btn btn-primary">
+                <i className="mdi mdi-cloud-upload" /> want to post ?
+              </a>
+            </div>
+          )}
+
           {/* End Logo container*/}
           <div className="menu-extras">
             <div className="menu-item">
@@ -176,11 +187,7 @@ const JobsHeader = () => {
               {/*end navigation menu*/}
             </div>
           )}
-
-          {/*end navigation*/}
         </div>
-        {/*end container*/}
-        {/*end end*/}
       </header>
     </div>
   );

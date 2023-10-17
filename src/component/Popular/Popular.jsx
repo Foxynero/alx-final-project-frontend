@@ -31,8 +31,10 @@ const Popular = () => {
                 return (
                   <div className="col-lg-3 col-md-6 mt-4 pt-2" key={item._id}>
                     <Link
-                      to={`/popular-item`}
-                      state={{ category: item.category_name }}>
+                      to={{
+                        pathname: `/popular-item`,
+                        search: `?query=${item.category_name}`,
+                      }}>
                       <div className="popu-category-box bg-light rounded text-center p-4">
                         <div className="popu-category-icon mb-3">
                           <i className="mdi mdi-account d-inline-block rounded-pill h3 text-primary" />

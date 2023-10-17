@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Header from "../Views/Header";
-import Footer from "../Views/Footer";
-import ListPopular from "./ListPopular";
 import SearchPage from "../SearchPage/SearchPage";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ListPopular from "./ListPopular";
+import queryString from "query-string";
+import Header from "../Views/Header";
+import Footer from "../Views/Footer";
 
 const PopularItem = () => {
-  let location = useLocation();
-  console.log(location);
   const [id, setId] = useState(null);
 
+  const { search } = useLocation();
+  const { query } = queryString.parse(search);
+
   useEffect(() => {
-    if (location.state) {
-      setId(location.state.category);
+    if (search) {
+      setId(query);
     }
-  }, [location.state]);
+  }, [query, search]);
 
   return (
     <>

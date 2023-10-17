@@ -42,6 +42,11 @@ const SeekerProfile = () => {
     }
   }, [user_id]);
 
+  // todo: add a button to update profile
+  const UpdateProfile = () => {
+    window.location.href = "/update-profile";
+  };
+
   return (
     <div>
       {/* Navigation Bar*/}
@@ -65,12 +70,12 @@ const SeekerProfile = () => {
                   </li>
                   <li>
                     <a href="#/" className="text-uppercase font-weight-bold">
-                      Jobs
+                      User
                     </a>
                   </li>
                   <li>
                     <span className="text-uppercase text-white font-weight-bold">
-                      Job Detail
+                      User Details
                     </span>
                   </li>
                 </ul>
@@ -122,34 +127,22 @@ const SeekerProfile = () => {
                   <button
                     type="button"
                     onClick={() => DownloadFile(jobDetails.resume)}
-                    className="btn btn-primary my-5 p-3 btn-block d-none">
+                    className="btn btn-primary my-5 p-3 btn-block">
                     download resume
                   </button>
                 </>
                 <>
                   <button
                     type="button"
-                    onClick={() => DownloadFile(jobDetails.resume)}
-                    className="btn btn-primary my-5 p-3 btn-block d-none">
-                    update
+                    onClick={UpdateProfile}
+                    className="btn btn-primary my-5 p-3 btn-block">
+                    update profile
                   </button>
                 </>
               </div>
 
-              <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0 d-none">
+              <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div className="job-detail rounded border job-overview mt-4 mb-4">
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-home text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Company name</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.company_name}
-                      </h6>
-                    </div>
-                  </div>
-
                   <div className="single-post-item mb-4">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-security text-muted mdi-24px" />
@@ -157,55 +150,49 @@ const SeekerProfile = () => {
                     <div className="overview-details">
                       <h6 className="text-muted mb-0">Experience</h6>
                       <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_experience} year(s)
+                        {jobDetails.experience} year(s)
                       </h6>
                     </div>
                   </div>
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-currency-usd text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Salary</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        GH₵ {jobDetails.job_salary} / month
-                      </h6>
-                    </div>
-                  </div>
-                  {jobDetails && (
-                    <div className="single-post-item mb-4">
-                      <div className="float-left mr-3">
-                        <i className="mdi mdi-calendar-today text-muted mdi-24px" />
-                      </div>
-                      <div className="overview-details">
-                        <h6 className="text-muted mb-0">Date Applied</h6>
-                        <h6 className="text-black-50 pt-2 mb-0">
-                          {jobDetails.date_applied}, {jobDetails.time_applied}
-                        </h6>
-                      </div>
-                    </div>
-                  )}
 
-                  <div className="single-post-item mb-4">
-                    <div className="float-left mr-3">
-                      <i className="mdi mdi-email text-muted mdi-24px" />
-                    </div>
-                    <div className="overview-details">
-                      <h6 className="text-muted mb-0">Email</h6>
-                      <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_company_email}
-                      </h6>
-                    </div>
-                  </div>
+                  {jobDetails.resume === "" || "N/A" ? (
+                    <>
+                      <div className="single-post-item mb-4">
+                        <div className="float-left mr-3">
+                          <i className="mdi mdi-file text-muted mdi-24px" />
+                        </div>
+                        <div className="overview-details">
+                          <h6 className="text-muted mb-0">resume</h6>
+                          <h6 className="text-black-50 pt-2 mb-0">
+                            No file uploaded
+                          </h6>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="single-post-item mb-4">
+                        <div className="float-left mr-3">
+                          <i className="mdi mdi-email text-muted mdi-24px" />
+                        </div>
+                        <div className="overview-details">
+                          <h6 className="text-muted mb-0">resume</h6>
+                          <h6 className="text-black-50 pt-2 mb-0">
+                            {jobDetails.resume}
+                          </h6>
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="single-post-item">
                     <div className="float-left mr-3">
                       <i className="mdi mdi-map-marker text-muted mdi-24px" />
                     </div>
                     <div className="overview-details">
-                      <h6 className="text-muted mb-0">job type</h6>
+                      <h6 className="text-muted mb-0">location</h6>
                       <h6 className="text-black-50 pt-2 mb-0">
-                        {jobDetails.job_type}
+                        {jobDetails.location}
                       </h6>
                     </div>
                   </div>

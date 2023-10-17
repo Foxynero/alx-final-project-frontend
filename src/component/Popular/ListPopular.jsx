@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
 
-const ListPopular = () => {
-  let location = useLocation();
-  console.log(location);
-
+const ListPopular = ({ info }) => {
   const [category, setCategory] = useState([]);
-  const [id, setId] = useState(null);
 
   useEffect(() => {
-    if (location.state) {
-      setId(location.state.category);
-    }
-  }, [location.state]);
-
-  useEffect(() => {
-    if (id) {
+    if (info) {
       axios
-        .post(`${process.env.REACT_APP_Base_url}/jobs/products_by_category`, {
-          job_category: id,
+        .post(`${process.env.REACT_APP_Base_url}/jobs/get_jobs_by_category`, {
+          job_category: info,
         })
         .then((res) => {
           console.log(res.data);
-          setCategory(res.data.job);
+          setCategory(res.data.info);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [id]);
+  }, [info]);
 
   return (
     <>
@@ -96,8 +86,8 @@ const ListPopular = () => {
                                       <div>
                                         <Link
                                           to={{
-                                            pathname: `/job_details`,
-                                            state: { id: item._id },
+                                            pathname: `/job-details`,
+                                            search: `?query=${item._id}`,
                                           }}
                                           className="text-primary">
                                           Apply Now

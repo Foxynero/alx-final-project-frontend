@@ -4,19 +4,18 @@ import Header from "../Views/Header";
 import axios from "axios";
 
 const PostJob = () => {
-  const [job_title, setJobTitle] = useState("");
-  const [job_type, setJobType] = useState("");
+  const [job_company_email, setJobCompanyEmail] = useState("");
+  const [job_description, setJobDescription] = useState("");
+  const [job_experience, setJobExperience] = useState("");
+  const [job_company_name, setCompanyName] = useState("");
   const [job_category, setJobCategory] = useState("");
   const [job_location, setJobLocation] = useState("");
-  const [job_salary, setJobSalary] = useState("");
-  const [job_experience, setJobExperience] = useState("");
-  const [job_company_email, setJobCompanyEmail] = useState("");
-  const [job_company_name, setCompanyName] = useState("");
-  const [job_description, setJobDescription] = useState("");
   const [categories, setCategories] = useState([]);
-  const [token, setToken] = useState(null);
-
+  const [job_salary, setJobSalary] = useState("");
+  const [job_title, setJobTitle] = useState("");
+  const [job_type, setJobType] = useState("");
   const [user_id, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const tk = sessionStorage.getItem("token");

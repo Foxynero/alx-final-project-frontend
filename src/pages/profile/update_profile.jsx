@@ -1,15 +1,10 @@
 import { Toast } from "primereact/toast";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-const Register = () => {
-  const [confirm_password, setConfirmPassword] = useState("");
-  const [first_name, setFirstName] = useState("");
+const UpdateProfile = () => {
   const [loading, setLoading] = useState(false);
-  const [last_name, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [user, setUser] = useState({});
   const toast = useRef(null);
 
   // todo: show toast
@@ -21,35 +16,49 @@ const Register = () => {
     });
   };
 
+  useEffect(() => {
+    axios
+      .post(`${process.env.REACT_APP_Base_url}/users/user_details`, {
+        user_id: sessionStorage.getItem("user_id"),
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data.info);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (password !== confirm_password) {
-      show("Password and Confirm Password does not match", 400);
-      setLoading(false);
-    } else {
-      axios
-        .post(`${process.env.REACT_APP_Base_url}/users/register`, {
-          first_name,
-          last_name,
-          email,
-          password,
-          role,
-        })
-        .then((res) => {
-          console.log(res.data);
-          show(res.data.message, res.data.status);
-          setLoading(false);
+    axios
+      .post(`${process.env.REACT_APP_Base_url}/users/register`, {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+      })
+      .then((res) => {
+        console.log(res.data);
+        show(res.data.message, res.data.status);
+        setLoading(false);
 
-          if (res.data.status === 201) {
-            window.location.href = "/login";
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+        if (res.data.status === 201) {
+          window.location.href = "/login";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // todo: handle file
+  const handleFile = (e) => {
+    console.log(e.target.files[0]);
   };
 
   return (
@@ -69,7 +78,7 @@ const Register = () => {
                 <div className="col-lg-8 col-md-8 col-sm-12">
                   <div className="login_page bg-white shadow rounded p-4">
                     <div className="text-center">
-                      <h4 className="mb-4">Signup</h4>
+                      <h4 className="mb-4">Update Profile</h4>
                     </div>
                     <form className="login-form" onSubmit={handleSubmit}>
                       <div className="row">
@@ -82,8 +91,15 @@ const Register = () => {
                               type="text"
                               className="form-control"
                               placeholder="First Name"
-                              required
-                              onChange={(e) => setFirstName(e.target.value)}
+                              defaultValue={user.first_name}
+                              onChange={(e) =>
+                                setUser((user) => {
+                                  return {
+                                    ...user,
+                                    first_name: e.target.value,
+                                  };
+                                })
+                              }
                             />
                           </div>
                         </div>
@@ -96,8 +112,15 @@ const Register = () => {
                               type="text"
                               className="form-control"
                               placeholder="Last Name"
-                              required
-                              onChange={(e) => setLastName(e.target.value)}
+                              defaultValue={user.last_name}
+                              onChange={(e) =>
+                                setUser((user) => {
+                                  return {
+                                    ...user,
+                                    last_name: e.target.value,
+                                  };
+                                })
+                              }
                             />
                           </div>
                         </div>
@@ -105,60 +128,98 @@ const Register = () => {
                         <div className="col-md-6">
                           <div className="form-group position-relative">
                             <label>
-                              Your Email <span className="text-danger">*</span>
+                              Your Location{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="email"
+                              type="text"
                               className="form-control"
-                              placeholder="Email"
-                              required
-                              onChange={(e) => setEmail(e.target.value)}
+                              placeholder="Location"
+                              defaultValue={user.location}
+                              onChange={(e) =>
+                                setUser((user) => {
+                                  return {
+                                    ...user,
+                                    location: e.target.value,
+                                  };
+                                })
+                              }
                             />
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group position-relative">
                             <label>
-                              Role <span className="text-danger">*</span>
+                              Email <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              defaultValue={user.email}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="form-group position-relative">
+                            <label>
+                              Years of Experience{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <select
                               className="form-control"
                               required
-                              onChange={(e) => setRole(e.target.value)}>
+                              defaultValue={user.experience}
+                              onChange={(e) =>
+                                setUser((user) => {
+                                  return {
+                                    ...user,
+                                    experience: e.target.value,
+                                  };
+                                })
+                              }>
                               <option value>Choose...</option>
-                              <option value="seeker">Job Seeker</option>
-                              <option value="creator">Post Jobs</option>
+                              <option value="0">Fresher</option>
+                              <option value="1">1 Years</option>
+                              <option value="2">2 Years</option>
+                              <option value="3">3 Years</option>
+                              <option value="4">4 Years</option>
+                              <option value="5">5 Years</option>
+                              <option value="6">6 Years</option>
+                              <option value="7">7 Years</option>
+                              <option value="8">8 Years</option>
+                              <option value="9">9 Years</option>
+                              <option value="10">10 Years</option>
+                              <option value="10+">10+ Years</option>
                             </select>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group position-relative">
                             <label>
-                              Password <span className="text-danger">*</span>
+                              Upload CV / Resume{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="password"
+                              type="file"
                               className="form-control"
                               placeholder="Password"
                               required
-                              onChange={(e) => setPassword(e.target.value)}
+                              onChange={handleFile}
                             />
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group position-relative">
                             <label>
-                              Confirm Password{" "}
-                              <span className="text-danger">*</span>
+                              role <span className="text-danger">*</span>
                             </label>
                             <input
                               type="password"
                               className="form-control"
                               placeholder="Confirm Password"
-                              required
-                              onChange={(e) =>
-                                setConfirmPassword(e.target.value)
-                              }
+                              defaultValue={user.role}
+                              disabled
                             />
                           </div>
                         </div>
@@ -187,7 +248,7 @@ const Register = () => {
                             <button
                               className="btn btn-primary w-100"
                               type="submit">
-                              Register
+                              update profile
                             </button>
                           </div>
                         ) : (
@@ -200,49 +261,6 @@ const Register = () => {
                             </button>
                           </div>
                         )}
-
-                        <div className="col-lg-12 mt-4 text-center">
-                          <h6>Or Signup With</h6>
-                          <ul className="list-unstyled social-icon mb-0 mt-3">
-                            <li className="list-inline-item">
-                              <a href="#/" className="rounded">
-                                <i
-                                  className="mdi mdi-facebook"
-                                  title="Facebook"
-                                />
-                              </a>
-                            </li>
-                            <li className="list-inline-item">
-                              <a href="#/" className="rounded">
-                                <i
-                                  className="mdi mdi-google-plus"
-                                  title="Google"
-                                />
-                              </a>
-                            </li>
-                            <li className="list-inline-item">
-                              <a href="#/" className="rounded">
-                                <i
-                                  className="mdi mdi-github-circle"
-                                  title="Github"
-                                />
-                              </a>
-                            </li>
-                          </ul>
-                          {/*end icon*/}
-                        </div>
-                        <div className="mx-auto">
-                          <p className="mb-0 mt-3">
-                            <small className="text-dark mr-1">
-                              Already have an account ?
-                            </small>{" "}
-                            <a
-                              href="/Login"
-                              className="text-success font-weight-bold">
-                              sign in
-                            </a>
-                          </p>
-                        </div>
                       </div>
                     </form>
                   </div>
@@ -259,4 +277,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default UpdateProfile;

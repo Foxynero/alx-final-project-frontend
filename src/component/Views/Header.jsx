@@ -7,10 +7,12 @@ const Header = () => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
   const [user_id, setUserId] = useState(null);
+  const role = sessionStorage.getItem("role");
 
   useEffect(() => {
     const tk = sessionStorage.getItem("token");
     const user = sessionStorage.getItem("user_id");
+
     setUserId(user);
 
     setToken(tk);
@@ -61,8 +63,8 @@ const Header = () => {
                 </a>
               </div>
               <div className="email">
-                <a href="mailto:customerservices@jobya.com">
-                  <i className="mdi mdi-email" /> customerservices@jobya.com
+                <a href="mailto:customerservices@fefhub.com">
+                  <i className="mdi mdi-email" /> customerservices@fefhub.com
                 </a>
               </div>
             </div>
@@ -119,11 +121,14 @@ const Header = () => {
                             </a>
 
                             <div className="dropdown-menu">
-                              <a
-                                className="dropdown-item text-dark"
-                                href="/profile">
-                                profile
-                              </a>
+                              {role && role === "seeker" ? (
+                                <a
+                                  className="dropdown-item text-dark"
+                                  href="/seeker-profile">
+                                  profile
+                                </a>
+                              ) : null}
+
                               <a
                                 className="dropdown-item text-dark"
                                 href="#/"
@@ -153,11 +158,24 @@ const Header = () => {
               <img src={B} alt=".." className="logo-dark" height={18} />
             </a>
           </div>
-          <div className="buy-button">
+          {role && role === "seeker" ? (
+            <div className="buy-button">
+              <a href="/jobs-portal" className="btn btn-primary">
+                <i className="mdi mdi-cloud-upload" /> applied jobs
+              </a>
+            </div>
+          ) : (
+            <div className="buy-button">
+              <a href="/post-job" className="btn btn-primary">
+                <i className="mdi mdi-cloud-upload" /> want to post ?
+              </a>
+            </div>
+          )}
+          {/* <div className="buy-button">
             <a href="/post-job" className="btn btn-primary">
               <i className="mdi mdi-cloud-upload" /> want to post ?
             </a>
-          </div>
+          </div> */}
           {/* End Logo container*/}
           <div className="menu-extras">
             <div className="menu-item">
