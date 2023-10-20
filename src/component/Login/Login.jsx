@@ -10,6 +10,7 @@ const Login = () => {
   const toast = useRef(null);
   const location_data = useLocation();
   console.log(location_data);
+  console.log(location_data.state);
 
   // todo: show toast
   const show = (message, status) => {
@@ -42,9 +43,9 @@ const Login = () => {
             "preference",
             res.data.info.isPreferenceSelected
           );
-          if (location_data.state.location) {
+          if (location_data.state !== null) {
             window.location.href = location_data.state.location.pathname;
-          } else {
+          } else if (location_data.state === null) {
             window.location.href = "/";
           }
         }
