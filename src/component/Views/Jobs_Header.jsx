@@ -59,7 +59,7 @@ const JobsHeader = () => {
               </div>
               <div className="email">
                 <a href="mailto:flexywork327@gmail.com">
-                  <i className="mdi mdi-email" /> customerservices@jobya.com
+                  <i className="mdi mdi-email" /> customerservices@fefhub.com
                 </a>
               </div>
             </div>
