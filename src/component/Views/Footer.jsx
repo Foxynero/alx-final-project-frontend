@@ -12,8 +12,8 @@ const Footer = () => {
                 <img src="images/logo-light.png" height={20} alt="Logo" />
               </a>
               <p className="mt-4">
-                At vero eos et accusamus et iusto odio dignissim os ducimus qui
-                blanditiis praesentium
+                FefHub! Where Careers Begin!
+                Sign up today!
               </p>
               <ul className="social-icon social list-inline mb-0">
                 <li className="list-inline-item">
@@ -109,7 +109,7 @@ const Footer = () => {
             <div className="col-12">
               <div className>
                 <p className="mb-0">
-                  © 2019 -{new Date().getUTCFullYear()} Jobya.
+                  © 2019 -{new Date().getUTCFullYear()} FefHub.
                   <i className="mdi mdi-heart text-danger" />
                 </p>
               </div>
