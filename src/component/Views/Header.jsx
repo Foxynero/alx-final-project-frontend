@@ -161,13 +161,13 @@ const Header = () => {
           {role && role === "seeker" ? (
             <div className="buy-button">
               <a href="/jobs-portal" className="btn btn-primary">
-                <i className="mdi mdi-cloud-upload" /> applied jobs
+                <i className="mdi mdi-cloud-upload" /> Applied jobs
               </a>
             </div>
           ) : (
             <div className="buy-button">
               <a href="/post-job" className="btn btn-primary">
-                <i className="mdi mdi-cloud-upload" /> want to post ?
+                <i className="mdi mdi-cloud-upload" /> Want to post?
               </a>
             </div>
           )}
