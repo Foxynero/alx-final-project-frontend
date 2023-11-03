@@ -3,6 +3,7 @@
 FeFHub is a web application designed to help ALX students find job opportunities and assist companies in connecting with ALX students. This README provides an overview of the project and how to get it up and running.
 
 Table of Contents
+
 - [Introduction](#introduction)
 - [Features](#features)
 - [Technologies](#technologies)
@@ -33,7 +34,6 @@ Utilizing machine learning, the app suggests job posts based on user information
 2. Being able to auto generate a new job post from a template when logged in as an admin so they dont have to fill in the same information over and over again
 3. Being able to auto suggest a job post based on the information provided by the user(preferably using machine learning)
 
-
 ## Problem we are trying to solve
 
 1. ALX students have a hard time finding jobs
@@ -42,7 +42,6 @@ Utilizing machine learning, the app suggests job posts based on user information
 ## Solution
 
 - Create a job board for ALX students to find jobs and connect to companies
-
 
 ## Technologies
 
@@ -58,9 +57,7 @@ Utilizing machine learning, the app suggests job posts based on user information
 | User interested in a particular job field | if the user is interested in a particular job field, he/she will be fed with more job posts related to that field                           | Else he/she will be fed with random job posts |
 | User interested in a particular company   | if the user is interested in a particular company, he/she will be fed with more job posts related to that company                           | Else he/she will be fed with random job posts |
 
-
-
-********************************************
+---
 
 ## Technologies
 
@@ -81,7 +78,8 @@ To run this project locally, follow these steps:
 
    ```bash
    cd FeFHub-alx-project
-Install the necessary dependencies.
+   Install the necessary dependencies.
+   ```
 
 bash
 Copy code
@@ -107,3 +105,9 @@ Push your changes to your fork.
 Create a pull request to the main repository.
 
 Please refer to our Contributing Guidelines for more details.
+
+## Team Members
+
+- [Asare Felix](https://github.com/flexywork327/)
+- [Foster Adu Gyamfi](https://github.com/Foxynero/)
+- [Esther Ademipe](https://github.com/legacycodine/)
