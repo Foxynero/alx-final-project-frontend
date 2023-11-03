@@ -8,6 +8,7 @@ import axios from "axios";
 
 const JobDetails = () => {
   const user_id = sessionStorage.getItem("user_id"); // get user_id from session storage
+  const user_role = sessionStorage.getItem("role"); // get user_role from session storage
   const [jobDetails, setJobDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState("");
@@ -230,13 +231,24 @@ const JobDetails = () => {
 
                 <>
                   {/* <!-- Button trigger modal --> */}
-                  <button
-                    type="button"
-                    className="btn btn-primary my-5 p-3 btn-block"
-                    data-toggle="modal"
-                    data-target="#exampleModal">
-                    apply now
-                  </button>
+                  {user_role && user_role === "creator" ? (
+                    <button
+                      type="button"
+                      className="btn btn-primary my-5 p-3 btn-block"
+                      onClick={() =>
+                        alert("You cannot apply for a job as a creator")
+                      }>
+                      apply now
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-primary my-5 p-3 btn-block"
+                      data-toggle="modal"
+                      data-target="#exampleModal">
+                      apply now
+                    </button>
+                  )}
 
                   {/* <!-- Modal --> */}
                   <div
